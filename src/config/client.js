@@ -1,3 +1,4 @@
+import React from 'react'
 import init from 'react_native_mqtt'
 import { AsyncStorage } from 'react-native'
 
@@ -8,8 +9,6 @@ init({
     enableCache: true,
     sync: {},
 });
-
-
 
 const client = new Paho.MQTT.Client('broker.mqttdashboard.com', 8000, `uname`)
 client.onConnectionLost = onConnectionLost

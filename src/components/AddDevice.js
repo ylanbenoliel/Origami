@@ -38,21 +38,21 @@ export class AddDevice extends Component {
 
 					<Text style={styles.header}>Novo dispositivo.</Text>
 
-                    <TextInput placeholder='Inserir o lugar.' 
-                        style={styles.input}
+					<TextInput placeholder='Inserir o lugar.'
+						style={styles.input}
 						onChangeText={place => this.setState({ place })}
 						value={this.state.place} />
-                    <TextInput placeholder='Inserir o tópico.' 
-                        style={styles.input}
+					<TextInput placeholder='Inserir o tópico.'
+						style={styles.input}
 						onChangeText={topic => this.setState({ topic })}
 						value={this.state.topic} />
-                    <TextInput placeholder='Inserir o tipo.' 
-                        style={styles.input}
+					<TextInput placeholder='Inserir o tipo.'
+						style={styles.input}
 						onChangeText={type => this.setState({ type })}
 						value={this.state.type} />
 
-                    <View 
-                        style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+					<View
+						style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
 						<TouchableOpacity onPress={this.props.onCancel}>
 							<Text style={styles.button}>Cancelar</Text>
 						</TouchableOpacity>
