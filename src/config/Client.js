@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState } from 'react'
 import init from 'react_native_mqtt'
-
 import { AsyncStorage } from 'react-native'
-import DeviceContext from './Device'
+import { DeviceContext } from './Device'
 
 init({
     size: 10000,
@@ -12,13 +11,9 @@ init({
     sync: {},
 });
 
-export const ClientContext = createContext()
+export const ClientContext = createContext({})
 
 function Client({ children }) {
-    console.log('client')
-    // const data = useContext(DeviceContext)
-    // const [devices, setDevices] = useState(data)
-    // console.log(data, devices)
 
     const clientId = Math.floor(Math.random() * 1000) + 1
 

@@ -8,24 +8,24 @@ import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
 const databases = ['Light', 'InfraRed', 'Split']
 
 const MenuOptions = {
-    Light: {
-        name: 'Light',
-        screen: props => <Light screen={databases[0]} />,
-        navigationOptions: {
-            title: 'Luzes',
-            tabBarIcon: ({ tintColor }) =>
-                <Icon name='wb-incandescent' size={30} color={tintColor} />
-        }
-    },
-    InfraRed: {
-        name: 'InfraRed',
-        screen: props => <InfraRed screen={databases[1]} />,
-        navigationOptions: {
-            title: 'InfraRed',
-            tabBarIcon: ({ tintColor }) =>
-                <Icon name='power-settings-new' size={30} color={tintColor} />
-        }
-    },
+    // Light: {
+    //     name: 'Light',
+    //     screen: props => <Light screen={databases[0]} />,
+    //     navigationOptions: {
+    //         title: 'Luzes',
+    //         tabBarIcon: ({ tintColor }) =>
+    //             <Icon name='wb-incandescent' size={30} color={tintColor} />
+    //     }
+    // },
+    // InfraRed: {
+    //     name: 'InfraRed',
+    //     screen: props => <InfraRed screen={databases[1]} />,
+    //     navigationOptions: {
+    //         title: 'InfraRed',
+    //         tabBarIcon: ({ tintColor }) =>
+    //             <Icon name='power-settings-new' size={30} color={tintColor} />
+    //     }
+    // },
     Split: {
         name: 'Split',
         screen: props => <Split screen={databases[2]} />,

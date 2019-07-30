@@ -1,7 +1,4 @@
 import React, { createContext, useState } from 'react'
-
-export const DeviceContext = createContext({})
-
 let data = [
     {
         id: 1,
@@ -18,14 +15,14 @@ let data = [
         type: 'onoff'
     }
 ]
+export const DeviceContext = createContext({})
 function Device({ children }) {
-    // const [devices, setDevices] = useState(data)
-    console.log('device')
+    const [devices, setDevices] = useState(data)
+    console.log(devices)
     return (
-        <DeviceContext.Provider value={{ data }}>
+        <DeviceContext.Provider value={{ devices }}>
             {children}
         </DeviceContext.Provider>
     )
 }
-
 export default Device
