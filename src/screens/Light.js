@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { AsyncStorage, StyleSheet, View, FlatList, TouchableOpacity, Text } from 'react-native'
-import { client } from '../config/client'
+import { client } from '../config/Client'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import commonStyles from '../config/commonStyles'
 import { Header, AddDevice } from '../components'
@@ -15,18 +15,19 @@ export default class Light extends Component {
 			devices: [],
 			showAddDevice: false,
 		}
-		setTimeout(() => this.getStoredDevices(), 2000)
+		console.log('ola')
+		setTimeout(() => this.getStoredDevices(), 1500)
 	}
 
-	onMessageArrived = message => {
-		const devices = this.state.devices.map(device => {
-			if (device.topic === message.destinationName) {
-				device.status = message.payloadString
-			}
-			return device
-		})
-		this.setState({ devices })
-	}
+	// onMessageArrived = message => {
+	// 	const devices = this.state.devices.map(device => {
+	// 		if (device.topic === message.destinationName) {
+	// 			device.status = message.payloadString
+	// 		}
+	// 		return device
+	// 	})
+	// 	this.setState({ devices })
+	// }
 
 	enableDevice = () => {
 		const { client, devices } = this.state

@@ -1,21 +1,17 @@
 import React from 'react'
 import Navigator from './src/config/Navigator'
-// import { client } from './src/config/client'
-import DeviceContext from './src/config/DeviceContext'
+import ClientContext from './src/config/Client'
+import DeviceContext from './src/config/Device'
 
 export default function App() {
 
-    const devices = {
-        id: 1,
-        topic: 'so/quarto',
-        status: '0',
-        place: 'quarto',
-        type: 'onoff'
-    }
+
     return (
-        <DeviceContext.Provider value={devices}>
-            <Navigator />
-        </DeviceContext.Provider>
+        <DeviceContext>
+            <ClientContext>
+                <Navigator />
+            </ClientContext>
+        </DeviceContext>
     )
 
 }

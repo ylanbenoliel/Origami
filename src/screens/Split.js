@@ -1,18 +1,16 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Header } from '../components'
-import DeviceContext from '../config/DeviceContext'
+import DeviceContext from '../config/Device'
 
-export default (props) => {
-    const devices = useContext(DeviceContext)
-    const totalDevices = devices.place
+export default function Split() {
+    const x = useContext(DeviceContext)
+    console.log(x)
     return (
         <View>
             <Header />
-            <Text>{totalDevices}</Text>
         </View>
-    );
-
+    )
 }
 
 const styles = StyleSheet.create({

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { client } from '../config/client'
+import { client } from '../config/Client'
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { Header } from '../components'
 import IR from '../components/IR'
