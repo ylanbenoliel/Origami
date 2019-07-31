@@ -14,7 +14,7 @@ init({
 export const ClientContext = createContext({})
 
 function Client({ children }) {
-
+    const { devices, setDevices } = useContext(DeviceContext)
     const clientId = Math.floor(Math.random() * 1000) + 1
 
     const client = new Paho.MQTT.Client('broker.mqttdashboard.com', 8000, `${clientId}`)
@@ -25,6 +25,7 @@ function Client({ children }) {
     )
 
     function onConnect() {
+        enableDevices()
     }
 
     function onMessageArrived(message) {
@@ -33,6 +34,13 @@ function Client({ children }) {
 
     function onConnectionLost(responseObject) {
         if (responseObject.errorCode !== 0) {
+        }
+    }
+
+    function enableDevices() {
+        for (let i = 0; i < devices.length; i++) {
+            client.subscribe(`${devices[i].topic}`)
+            console.log(`Conectado à ${devices[i].topic}`)
         }
     }
 

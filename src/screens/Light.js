@@ -15,7 +15,6 @@ export default class Light extends Component {
 			devices: [],
 			showAddDevice: false,
 		}
-		console.log('ola')
 		setTimeout(() => this.getStoredDevices(), 1500)
 	}
 
@@ -29,13 +28,13 @@ export default class Light extends Component {
 	// 	this.setState({ devices })
 	// }
 
-	enableDevice = () => {
-		const { client, devices } = this.state
-		for (let i = 0; i < devices.length; i++) {
-			client.subscribe(`${devices[i].topic}`)
-			// client.publish(`${device[i].topic}`, 's')
-		}
-	}
+	// enableDevice = () => {
+	// 	const { client, devices } = this.state
+	// 	for (let i = 0; i < devices.length; i++) {
+	// 		client.subscribe(`${devices[i].topic}`)
+	// 		// client.publish(`${device[i].topic}`, 's')
+	// 	}
+	// }
 
 	toggleStatusDevice = id => {
 		const { client } = this.state

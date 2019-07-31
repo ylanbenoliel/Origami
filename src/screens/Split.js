@@ -6,7 +6,6 @@ import { ClientContext } from '../config/Client'
 
 function Split() {
     const { devices, setDevices } = useContext(DeviceContext)
-    console.log(devices)
     return (
         <View>
             <Header />
