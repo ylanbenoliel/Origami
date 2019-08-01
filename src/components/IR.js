@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import commonStyles from '../config/commonStyles'
 
-const iconSize = 50
+const iconSize = 42 //emulator cel23
 
 const IR = (props) => {
     return (
@@ -12,7 +12,7 @@ const IR = (props) => {
             hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}
         >
             <View style={styles.icon}>
-                <Icon name={props.name} size={iconSize} 
+                <Icon name={props.name} size={iconSize}
                     color={commonStyles.colors.primary} />
             </View>
         </TouchableOpacity>

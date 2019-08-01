@@ -1,4 +1,5 @@
 import React from 'react'
+import { PixelRatio } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Light from '../screens/Light'
 import InfraRed from '../screens/InfraRed'
@@ -23,7 +24,7 @@ const MenuOptions = {
     //     navigationOptions: {
     //         title: 'InfraRed',
     //         tabBarIcon: ({ tintColor }) =>
-    //             <Icon name='power-settings-new' size={30} color={tintColor} />
+    //             <Icon name='power-settings-new' size={24} color={tintColor} />
     //     }
     // },
     Split: {
@@ -32,7 +33,7 @@ const MenuOptions = {
         navigationOptions: {
             title: 'Split',
             tabBarIcon: ({ tintColor }) =>
-                <Icon name='ac-unit' size={30} color={tintColor} />
+                <Icon name='ac-unit' size={24} color={tintColor} />
         }
     }
 

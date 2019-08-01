@@ -2,23 +2,24 @@ import React, { createContext, useState } from 'react'
 let data = [
     {
         id: 1,
-        topic: 'quarto',
+        topic: 'so/quarto',
         status: '0',
         place: 'quarto',
-        type: 'onoff'
+        type: 'onoff',
+        connected: false
     },
     {
         id: 2,
-        topic: 'sala',
+        topic: 'so/sala',
         status: '1',
         place: 'sala',
-        type: 'onoff'
+        type: 'onoff',
+        connected: false
     }
 ]
 export const DeviceContext = createContext({})
 function Device({ children }) {
     const [devices, setDevices] = useState(data)
-    console.log(devices)
     return (
         <DeviceContext.Provider value={{ devices }}>
             {children}

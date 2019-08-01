@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext } from 'react'
 import init from 'react_native_mqtt'
 import { AsyncStorage } from 'react-native'
 import { DeviceContext } from './Device'
@@ -25,23 +25,48 @@ function Client({ children }) {
     )
 
     function onConnect() {
-        enableDevices()
+        handleEnableDevices()
     }
 
     function onMessageArrived(message) {
-        console.log(message)
+        // const changedDevice = devices.map(device => {
+        //     if (device.topic === message.destinationName) {
+        //         device.status = message.payloadString
+        //     }
+        //     return device
+        // })
+        // setDevices(changedDevice)
+        // console.log(devices)
+
+
+        // let changedDevice = devices
+        // for (let i = 0; i < changedDevice.length; i++) {
+        //     if (changedDevice[i].topic === message.destinationName) {
+        //         changedDevice[i].status = message.payloadString
+        //     }
+        // }
+        // console.log(devices)
+        // // console.log(changedDevice)
+        // // setDevices({ devices: changedDevice })
     }
+
+
 
     function onConnectionLost(responseObject) {
         if (responseObject.errorCode !== 0) {
         }
     }
 
-    function enableDevices() {
-        for (let i = 0; i < devices.length; i++) {
-            client.subscribe(`${devices[i].topic}`)
-            console.log(`Conectado à ${devices[i].topic}`)
-        }
+    function handleEnableDevices() {
+        const enableDevices = devices.map(device => {
+            if (device.connected === false) {
+                client.subscribe(`${device.topic}`)
+                device.connected = true
+            }
+            return device
+        })
+        setDevices(enableDevices)
+        // console.log(devices)
     }
 
     return (
@@ -51,7 +76,6 @@ function Client({ children }) {
         </ClientContext.Provider>
     )
 }
-
 export default Client
 
 
