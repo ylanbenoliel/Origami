@@ -11,7 +11,7 @@ export default function InfraRed(props) {
     }
     return (
         <TouchableOpacity onPress={command}>
-            <Text>Ola, tudo bem?</Text>
+            <Text>Enviando sala 2</Text>
         </TouchableOpacity>
     )
 }
