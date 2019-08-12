@@ -6,11 +6,11 @@ import client from '../config/Client'
 
 function Split(props) {
     function command() {
-        client.publish('so/quarto', '1')
+        client.publish('so/quarto', '2')
     }
     return (
         <TouchableOpacity onPress={command}>
-            <Text>Enviando quarto 1</Text>
+            <Text>Enviando quarto 2</Text>
         </TouchableOpacity>
     )
 }

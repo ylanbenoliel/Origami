@@ -9,15 +9,15 @@ import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
 const databases = ['Light', 'InfraRed', 'Split']
 
 const MenuOptions = {
-    // Light: {
-    //     name: 'Light',
-    //     screen: props => <Light screen={databases[0]} />,
-    //     navigationOptions: {
-    //         title: 'Luzes',
-    //         tabBarIcon: ({ tintColor }) =>
-    //             <Icon name='wb-incandescent' size={30} color={tintColor} />
-    //     }
-    // },
+    Light: {
+        name: 'Light',
+        screen: props => <Light screen={databases[0]} />,
+        navigationOptions: {
+            title: 'Luzes',
+            tabBarIcon: ({ tintColor }) =>
+                <Icon name='wb-incandescent' size={30} color={tintColor} />
+        }
+    },
     InfraRed: {
         name: 'InfraRed',
         screen: props => <InfraRed screen={databases[1]} />,
@@ -40,7 +40,7 @@ const MenuOptions = {
 }
 
 const MenuConfig = {
-    initialRouteName: 'Split',
+    initialRouteName: 'Light',
     tabBarOptions: {
         showLabel: false
     }
