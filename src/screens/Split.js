@@ -1,15 +1,17 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Header } from '../components'
 import { DeviceContext } from '../config/Device'
-import { ClientContext } from '../config/Client'
+import client from '../config/Client'
 
-function Split() {
-    const { devices, setDevices } = useContext(DeviceContext)
+function Split(props) {
+    function command() {
+        client.publish('so/sala', '1')
+    }
     return (
-        <View>
-            <Header />
-        </View>
+        <TouchableOpacity onPress={command}>
+            <Text>Ola, tudo bem?</Text>
+        </TouchableOpacity>
     )
 }
 const styles = StyleSheet.create({

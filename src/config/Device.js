@@ -5,7 +5,7 @@ function Device({ children }) {
     let data = [
         {
             id: 1,
-            topic: 'quarto',
+            topic: 'so/quarto',
             status: '0',
             place: 'quarto',
             type: 'onoff',
@@ -13,7 +13,7 @@ function Device({ children }) {
         },
         {
             id: 2,
-            topic: 'sala',
+            topic: 'so/sala',
             status: '1',
             place: 'sala',
             type: 'onoff',

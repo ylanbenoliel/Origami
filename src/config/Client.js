@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import init from 'react_native_mqtt'
 import { AsyncStorage } from 'react-native'
 import { DeviceContext } from './Device'
@@ -11,68 +11,76 @@ init({
     sync: {},
 });
 
-export const ClientContext = createContext({})
+/* Exportar a variável client diretamente ao invés de utilizar como provider
+1º implementação consegue recuperar devices, porem altera o estado client
+2ª implementação consegue passar o client entre telas, porem nao recebe os devices
+*/
 
-function Client({ children }) {
-    const { devices, setDevices } = useContext(DeviceContext)
-    const clientId = Math.floor(Math.random() * 1000) + 1
+// export const ClientContext = createContext({})
 
-    const client = new Paho.MQTT.Client('broker.mqttdashboard.com', 8000,
-        `${clientId}`)
-    client.onConnectionLost = onConnectionLost
-    client.onMessageArrived = onMessageArrived
-    client.connect(
-        { onSuccess: onConnect, useSSL: false }
-    )
+// function Client({ children }) {
+//     const { devices, setDevices } = useContext(DeviceContext)
 
-    function onConnect() {
-        handleEnableDevices()
-        // client.subscribe('quarto')
-        // client.subscribe('sala')
+//     const clientId = Math.floor(Math.random() * 1000) + 1
+//     const client = new Paho.MQTT.Client('broker.mqttdashboard.com', 8000,
+//         `${clientId}`)
+//     client.onConnectionLost = onConnectionLost
+//     client.onMessageArrived = onMessageArrived
+//     client.connect(
+//         { onSuccess: onConnect, useSSL: false }
+//     )
 
-    }
+//     function onConnect() {
+//         handleEnableDevices()
+//     }
 
-    function onMessageArrived(message) {
-        // console.log(message.topic, message.payloadString)
-        const changedDevice = devices.map(device => {
-            if (device.topic === message.destinationName) {
-                device.status = message.payloadString
-            }
-            return device
-        })
-        setDevices({ devices: changedDevice })
-    }
+//     function onMessageArrived(message) {
+//         const changedDevice = devices.map(device => {
+//             if (device.topic === message.destinationName) {
+//                 device.status = message.payloadString
+//             }
+//             return device
+//         })
+//         setDevices({ devices: changedDevice })
+//         console.log(devices)
+//     }
 
-    function onConnectionLost(responseObject) {
-        if (responseObject.errorCode !== 0) {
-        }
-    }
+//     function onConnectionLost(responseObject) {
+//         if (responseObject.errorCode !== 0) {
+//         }
+//     }
 
-    function handleEnableDevices() {
-        const enableDevices = devices.map(device => {
-            if (device.connected === false) {
-                client.subscribe(`${device.topic}`)
-                device.connected = true
-                // console.log(`Conectado à ${device.topic}`)
-            }
-            return device
-        })
-        setDevices({ devices: enableDevices })
-        // console.log(devices, 'Habilitado')
-    }
+//     function handleEnableDevices() {
+//         const enableDevices = devices.map(device => {
+//             if (device.connected === false) {
+//                 client.subscribe(`${device.topic}`)
+//                 device.connected = true
+//                 // console.log(`Conectado à ${device.topic}`)
+//             }
+//             return device
+//         })
+//         setDevices({ devices: enableDevices })
+//     }
 
-    useEffect(() => {
-        console.log(devices)
-    }, [devices.length])
+//     useEffect(() => {
+//         setTimeout(() => {
+//             client.publish('so/quarto', '1')
+//             console.log(client)
+//         }, 3000);
+//     }, [])
 
-    return (
-        <ClientContext.Provider
-            value={{ client }}>
-            {children}
-        </ClientContext.Provider>
-    )
-}
-export default Client
+//     return (
+//         // <>
+//         // </>
+//         <ClientContext.Provider
+//             value={{ client }}
+//         >
+//             {children}
+//         </ClientContext.Provider>
+//     )
+// }
+// export default Client
+
 
 
 
@@ -85,8 +93,7 @@ export default Client
 //     { onSuccess: onConnect, useSSL: false }
 // )
 // export default function Client() {
-//     const storedDevices = useContext(DeviceContext)
-//     const [devices, setDevices] = useState(storedDevices)
+//     const { devices, setDevices } = useContext(DeviceContext)
 //     console.log(devices)
 
 // }
@@ -106,3 +113,49 @@ export default Client
 // export {
 //     client
 // }
+
+const clientId = Math.floor(Math.random() * 1000) + 1
+const client = new Paho.MQTT.Client('broker.mqttdashboard.com', 8000, `${clientId}`)
+
+export function Client(props) {
+    const { devices, setDevices } = useContext(DeviceContext)
+
+    client.onConnectionLost = onConnectionLost
+    client.onMessageArrived = onMessageArrived
+    client.connect(
+        { onSuccess: onConnect, useSSL: false }
+    )
+
+
+    function onConnect() {
+        client.subscribe('so/sala')
+    }
+
+    function onMessageArrived(message) {
+        console.log(message.payloadString)
+    }
+
+    function onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+        }
+    }
+
+    function handleEnableDevices() {
+        const enableDevices = devices.map(device => {
+            if (device.connected === false) {
+                client.subscribe(`${device.topic}`)
+                device.connected = true
+                // console.log(`Conectado à ${device.topic}`)
+            }
+            return device
+        })
+        setDevices({ devices: enableDevices })
+    }
+
+    return (
+        <>
+        </>
+    )
+}
+
+export default client

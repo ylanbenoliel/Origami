@@ -18,15 +18,15 @@ const MenuOptions = {
     //             <Icon name='wb-incandescent' size={30} color={tintColor} />
     //     }
     // },
-    // InfraRed: {
-    //     name: 'InfraRed',
-    //     screen: props => <InfraRed screen={databases[1]} />,
-    //     navigationOptions: {
-    //         title: 'InfraRed',
-    //         tabBarIcon: ({ tintColor }) =>
-    //             <Icon name='power-settings-new' size={24} color={tintColor} />
-    //     }
-    // },
+    InfraRed: {
+        name: 'InfraRed',
+        screen: props => <InfraRed screen={databases[1]} />,
+        navigationOptions: {
+            title: 'InfraRed',
+            tabBarIcon: ({ tintColor }) =>
+                <Icon name='power-settings-new' size={24} color={tintColor} />
+        }
+    },
     Split: {
         name: 'Split',
         screen: props => <Split screen={databases[2]} />,
