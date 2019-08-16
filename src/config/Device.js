@@ -8,20 +8,26 @@ let data = [
         status: '0',
         place: 'quarto',
         type: 'onoff',
-        connected: false
     },
     {
         id: 2,
-        topic: 'so/sala',
+        topic: 'so/cozinha',
         status: '1',
-        place: 'sala',
+        place: 'cozinha',
         type: 'onoff',
-        connected: false
+    },
+    {
+        id: 3,
+        topic: 'so/salao',
+        status: '1',
+        place: 'salao',
+        type: 'onoff',
     }
+
 ]
 export const DeviceContext = createContext({})
-function Device({ children }) {
 
+export default function Device({ children }) {
     const [globalDevices, setGlobalDevices] = useState(data)
     return (
         <DeviceContext.Provider value={{ globalDevices, setGlobalDevices }}>
@@ -29,4 +35,3 @@ function Device({ children }) {
         </DeviceContext.Provider>
     )
 }
-export default Device

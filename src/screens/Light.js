@@ -1,19 +1,14 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { Component, useContext, useState, useEffect } from 'react'
 import { AsyncStorage, StyleSheet, View, FlatList, TouchableOpacity, Text } from 'react-native'
-import client from '../config/Client'
+import { client } from '../config/Client'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import commonStyles from '../config/commonStyles'
 import { Header, AddDevice } from '../components'
 import OnOff from '../components/OnOff'
 import { ClientContext } from '../config/Client'
 
-export default function Light({ children }) {
+export default function Light(props) {
 	const { devices, setDevices } = useContext(ClientContext)
-
-	useEffect(() => {
-		console.table(devices)
-
-	}, [devices])
 
 	function toggleStatusDevice(id) {
 		const toggledDevice = devices.map(device => {
@@ -22,7 +17,7 @@ export default function Light({ children }) {
 				if (device.status === '1') client.publish(`${device.topic}`, '0')
 				if (device.status === '0') client.publish(`${device.topic}`, '1')
 			}
-			return device
+			// return device
 		})
 		// setDevices({ devices: toggledDevice })
 	}
@@ -74,20 +69,10 @@ const styles = StyleSheet.create({
 
 // 		this.state = {
 // 			client: client,
-// 			devices: [],
+// 			devices: data,
 // 			showAddDevice: false,
 // 		}
-// 		setTimeout(() => this.getStoredDevices(), 1500)
-// 	}
-
-// 	onMessageArrived = message => {
-// 		const devices = this.state.devices.map(device => {
-// 			if (device.topic === message.destinationName) {
-// 				device.status = message.payloadString
-// 			}
-// 			return device
-// 		})
-// 		this.setState({ devices })
+// 		// setTimeout(() => this.getStoredDevices(), 1500)
 // 	}
 
 // 	enableDevice = () => {

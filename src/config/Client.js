@@ -1,9 +1,7 @@
-import React, { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect, useContext } from 'react'
 import init from 'react_native_mqtt'
 import { AsyncStorage } from 'react-native'
 import { DeviceContext } from './Device'
-
-import data from '../services/device'
 
 init({
     size: 10000,
@@ -19,8 +17,9 @@ const clientId = Math.floor(Math.random() * 1000) + 1
 const client = new Paho.MQTT.Client('broker.mqttdashboard.com',
     8000, `${clientId}`)
 
-export function Client({ children }) {
-    const [devices, setDevices] = useState(data)
+export default function Client({ children }) {
+    const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
+    const [devices, setDevices] = useState(globalDevices)
 
     client.onConnectionLost = onConnectionLost
     client.onMessageArrived = onMessageArrived
@@ -28,21 +27,15 @@ export function Client({ children }) {
         { onSuccess: onConnect, useSSL: false }
     )
 
-    setTimeout(() => {
-        //teste para ver se os devices funcionam apos serem apagados
-        setDevices({ devices: '' })
-    }, 4000)
-
-    function onMessageArrived(message) {
-        console.clear()
+    async function onMessageArrived(message) {
         const changedDevice = devices.map(device => {
             if (device.topic === message.destinationName) {
                 device.status = message.payloadString
             }
             return device
         })
-        console.table(changedDevice)
-        // setDevices({ devices: [...changedDevice] })
+        console.log(changedDevice)
+        // await setDevices({ devices: changedDevice })
     }
 
     function onConnect() {
@@ -56,10 +49,7 @@ export function Client({ children }) {
 
     function handleEnableDevices() {
         const enableDevices = devices.map(device => {
-            if (device.connected === false) {
-                client.subscribe(`${device.topic}`, { qos: 1 })
-                device.connected = true
-            }
+            client.subscribe(`${device.topic}`, { qos: 1 })
         })
         // setDevices({ devices: enableDevices })
     }
@@ -71,4 +61,4 @@ export function Client({ children }) {
     )
 }
 
-export default client
+export { client }

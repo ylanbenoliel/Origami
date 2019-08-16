@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import client from '../config/Client'
+import { client } from '../config/Client'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Header } from '../components'
 import IR from '../components/IR'
@@ -70,14 +70,14 @@ export default function InfraRed(props) {
                     <IR name='add' id={4} onSendCommand={sendCommand} />
                     <Text style={styles.text}>
                         Vol.
-                                 </Text>
+                    </Text>
                     <IR name='remove' id={5} onSendCommand={sendCommand} />
                 </View>
                 <View style={styles.channel}>
                     <IR name='keyboard-arrow-up' id={6} onSendCommand={sendCommand} />
                     <Text style={styles.text}>
                         Ch.
-                                 </Text>
+                    </Text>
                     <IR name='keyboard-arrow-down' id={7} onSendCommand={sendCommand} />
                 </View>
             </View>
