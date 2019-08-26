@@ -1,24 +1,24 @@
 import React, { createContext, useState } from 'react'
 
 // data tem que pegar dados ou do async storage ou puxado do backend
-let data = [
+const data = [
     {
         id: 1,
-        topic: 'so/quarto',
+        topic: 'os/quarto',
         status: '0',
         place: 'quarto',
         type: 'onoff',
     },
     {
         id: 2,
-        topic: 'so/cozinha',
+        topic: 'os/cozinha',
         status: '1',
         place: 'cozinha',
         type: 'onoff',
     },
     {
         id: 3,
-        topic: 'so/salao',
+        topic: 'os/salao',
         status: '1',
         place: 'salao',
         type: 'onoff',
@@ -27,11 +27,11 @@ let data = [
 ]
 export const DeviceContext = createContext({})
 
-export default function Device({ children }) {
+export default function Device(props) {
     const [globalDevices, setGlobalDevices] = useState(data)
     return (
         <DeviceContext.Provider value={{ globalDevices, setGlobalDevices }}>
-            {children}
+            {props.children}
         </DeviceContext.Provider>
     )
 }

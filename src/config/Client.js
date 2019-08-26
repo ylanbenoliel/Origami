@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react'
+import React, { createContext, useState, useContext } from 'react'
 import init from 'react_native_mqtt'
 import { AsyncStorage } from 'react-native'
 import { DeviceContext } from './Device'
@@ -17,7 +17,7 @@ const clientId = Math.floor(Math.random() * 1000) + 1
 const client = new Paho.MQTT.Client('broker.mqttdashboard.com',
     8000, `${clientId}`)
 
-export default function Client({ children }) {
+export default function Client(props) {
     const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
     const [devices, setDevices] = useState(globalDevices)
 
@@ -27,15 +27,15 @@ export default function Client({ children }) {
         { onSuccess: onConnect, useSSL: false }
     )
 
-    async function onMessageArrived(message) {
-        const changedDevice = devices.map(device => {
+    function onMessageArrived(message) {
+        const changedDevice = globalDevices.map(device => {
             if (device.topic === message.destinationName) {
+                // console.log(message.payloadString)
                 device.status = message.payloadString
             }
             return device
         })
-        console.log(changedDevice)
-        // await setDevices({ devices: changedDevice })
+        setGlobalDevices(changedDevice)
     }
 
     function onConnect() {
@@ -48,15 +48,16 @@ export default function Client({ children }) {
     }
 
     function handleEnableDevices() {
-        const enableDevices = devices.map(device => {
-            client.subscribe(`${device.topic}`, { qos: 1 })
-        })
-        // setDevices({ devices: enableDevices })
+        for (let i = 0; i < globalDevices.length; i++) {
+            client.subscribe(`${globalDevices[i].topic}`)
+        }
     }
 
     return (
+        // <>
+        // </>
         <ClientContext.Provider value={{ devices, setDevices }}>
-            {children}
+            {props.children}
         </ClientContext.Provider>
     )
 }

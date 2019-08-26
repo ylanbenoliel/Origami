@@ -1,5 +1,4 @@
 import React from 'react'
-import { PixelRatio } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Light from '../screens/Light'
 import InfraRed from '../screens/InfraRed'

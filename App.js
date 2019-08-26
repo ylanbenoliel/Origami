@@ -12,9 +12,9 @@ function App() {
 
     return (
         <DeviceProvider >
-            <ClientProvider>
-                <Navigator />
-            </ClientProvider>
+            {/* <ClientProvider> */}
+            <Navigator />
+            {/* </ClientProvider> */}
         </DeviceProvider>
     )
 

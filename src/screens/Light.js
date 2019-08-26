@@ -1,46 +1,95 @@
 import React, { Component, useContext, useState, useEffect } from 'react'
-import { AsyncStorage, StyleSheet, View, FlatList, TouchableOpacity, Text } from 'react-native'
-import { client } from '../config/Client'
+import {
+	AsyncStorage,
+	StyleSheet,
+	View,
+	FlatList
+} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import commonStyles from '../config/commonStyles'
 import { Header, AddDevice } from '../components'
 import OnOff from '../components/OnOff'
-import { ClientContext } from '../config/Client'
+import { DeviceContext } from '../config/Device'
+import init from 'react_native_mqtt'
+
+init({
+	size: 10000,
+	storageBackend: AsyncStorage,
+	defaultExpires: 1000 * 3600 * 24,
+	enableCache: true,
+	sync: {},
+});
 
 export default function Light(props) {
-	const { devices, setDevices } = useContext(ClientContext)
+	const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
+	const clientId = Math.floor(Math.random() * 1000) + 1
+	const client = new Paho.MQTT.Client('broker.mqttdashboard.com',
+		8000, `${clientId}`)
+
+	client.onConnectionLost = onConnectionLost
+	client.onMessageArrived = onMessageArrived
+	client.connect(
+		{ onSuccess: onConnect, useSSL: false }
+	)
+
+	function onMessageArrived(message) {
+		const changedDevice = globalDevices.map(device => {
+			if (device.topic === message.destinationName) {
+				// console.log(message.payloadString)
+				device.status = message.payloadString
+			}
+			return device
+		})
+		setGlobalDevices(changedDevice)
+	}
+
+	function onConnect() {
+		handleEnableDevices()
+	}
+
+	function onConnectionLost(responseObject) {
+		if (responseObject.errorCode !== 0) {
+		}
+	}
+
+	function handleEnableDevices() {
+		for (let i = 0; i < globalDevices.length; i++) {
+			client.subscribe(`${globalDevices[i].topic}`)
+		}
+	}
 
 	function toggleStatusDevice(id) {
-		const toggledDevice = devices.map(device => {
+		const toggledDevice = globalDevices.map(device => {
 			if (device.id === id) {
 				// client.publish(`${device.topic}`, 't')
 				if (device.status === '1') client.publish(`${device.topic}`, '0')
 				if (device.status === '0') client.publish(`${device.topic}`, '1')
 			}
-			// return device
+			return device
 		})
-		// setDevices({ devices: toggledDevice })
+		setGlobalDevices(toggledDevice)
 	}
 
 	function deleteDevice(id) {
-		const remainDevices = devices.filter(device => device.id !== id)
-		// setDevices({ devices: remainDevices })
+		const remainDevices = globalDevices.filter(device => device.id !== id)
+		setGlobalDevices(remainDevices)
 	}
 
 	return (
 		<View style={styles.container}>
 			<Header />
 			<View style={styles.deviceContainer}>
-				<FlatList data={devices} numColumns={2}
-					keyExtractor={item => item.id} renderItem={({ item }) =>
-						<OnOff {...item} onToggleStatusDevice={toggleStatusDevice}
-							onDelete={deleteDevice} />}
-				/>
+				{client && (
+					<FlatList data={globalDevices} numColumns={2}
+						keyExtractor={item => item.id} renderItem={({ item }) =>
+							<OnOff {...item} onToggleStatusDevice={toggleStatusDevice}
+								onDelete={deleteDevice} />}
+					/>
+				)}
 			</View>
 		</View>
 	)
 }
-
 
 const styles = StyleSheet.create({
 	container: {
@@ -62,97 +111,3 @@ const styles = StyleSheet.create({
 		paddingVertical: 5
 	},
 })
-
-// export default class Light extends Component {
-// 	constructor(props) {
-// 		super(props)
-
-// 		this.state = {
-// 			client: client,
-// 			devices: data,
-// 			showAddDevice: false,
-// 		}
-// 		// setTimeout(() => this.getStoredDevices(), 1500)
-// 	}
-
-// 	enableDevice = () => {
-// 		const { client, devices } = this.state
-// 		for (let i = 0; i < devices.length; i++) {
-// 			client.subscribe(`${devices[i].topic}`)
-// 			// client.publish(`${device[i].topic}`, 's')
-// 		}
-// 	}
-
-// 	toggleStatusDevice = id => {
-// 		const { client } = this.state
-// 		const devices = this.state.devices.map(device => {
-// 			if (device.id === id) {
-// 				client.publish(`${device.topic}`, 't')
-// 				// if (device.status === '1') client.publish(`${device.topic}`, '0')
-// 				// if (device.status === '0') client.publish(`${device.topic}`, '1')
-// 			}
-// 			return device
-// 		})
-// 		this.setState({ devices })
-// 	}
-
-// 	getStoredDevices = async () => {
-// 		try {
-// 			const data = await AsyncStorage.getItem(this.props.screen)
-// 			const storedDevices = JSON.parse(data) || []
-// 			this.setState({ devices: storedDevices }, this.enableDevice)
-// 		} catch (error) {
-
-// 		}
-// 	}
-
-// 	storeDevices = async () => {
-// 		try {
-// 			await AsyncStorage.setItem(this.props.screen, JSON.stringify(this.state.devices))
-// 		} catch (error) {
-
-// 		}
-// 	}
-
-// 	addDevice = async device => {
-// 		const devices = [...this.state.devices]
-// 		devices.push({
-// 			id: Math.random(),
-// 			topic: device.topic.trim().toLowerCase(),
-// 			status: '0',
-// 			place: device.place.trim().toLowerCase(),
-// 			type: device.type.trim().toLowerCase(),
-// 		})
-// 		await this.setState({ devices, showAddDevice: false }, this.enableDevice)
-// 		await this.storeDevices()
-// 	}
-
-// 	deleteDevice = id => {
-// 		const remainDevices = this.state.devices.filter(device => device.id !== id)
-// 		this.setState({ devices: remainDevices }, this.storeDevices)
-// 	}
-
-// 	render() {
-// 		return (
-// 			<View style={styles.container}>
-// 				<Header />
-
-// 				<TouchableOpacity style={styles.header}
-// 					onPress={() => this.setState({ showAddDevice: true })}>
-// 					<Icon name='add' color={commonStyles.colors.primary} size={25} />
-// 				</TouchableOpacity>
-
-// 				<AddDevice isVisible={this.state.showAddDevice} onSave={this.addDevice}
-// 					onCancel={() => this.setState({ showAddDevice: false })} />
-
-// 				<View style={styles.deviceContainer}>
-// 					<FlatList data={this.state.devices} numColumns={2}
-// 						keyExtractor={item => item.id} renderItem={({ item }) =>
-// 							<OnOff {...item} onToggleStatusDevice={this.toggleStatusDevice}
-// 								onDelete={this.deleteDevice} />}
-// 					/>
-// 				</View>
-// 			</View>
-// 		)
-// 	}
-// }
