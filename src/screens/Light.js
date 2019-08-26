@@ -1,15 +1,9 @@
-import React, { Component, useContext, useState, useEffect } from 'react'
-import {
-	AsyncStorage,
-	StyleSheet,
-	View,
-	FlatList
-} from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import commonStyles from '../config/commonStyles'
+import React, { useContext, useState, useEffect } from 'react'
+import { AsyncStorage, StyleSheet, View, FlatList } from 'react-native'
 import { Header, AddDevice } from '../components'
 import OnOff from '../components/OnOff'
 import { DeviceContext } from '../config/Device'
+import { client } from '../config/Client'
 import init from 'react_native_mqtt'
 
 init({
@@ -22,41 +16,6 @@ init({
 
 export default function Light(props) {
 	const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
-	const clientId = Math.floor(Math.random() * 1000) + 1
-	const client = new Paho.MQTT.Client('broker.mqttdashboard.com',
-		8000, `${clientId}`)
-
-	client.onConnectionLost = onConnectionLost
-	client.onMessageArrived = onMessageArrived
-	client.connect(
-		{ onSuccess: onConnect, useSSL: false }
-	)
-
-	function onMessageArrived(message) {
-		const changedDevice = globalDevices.map(device => {
-			if (device.topic === message.destinationName) {
-				// console.log(message.payloadString)
-				device.status = message.payloadString
-			}
-			return device
-		})
-		setGlobalDevices(changedDevice)
-	}
-
-	function onConnect() {
-		handleEnableDevices()
-	}
-
-	function onConnectionLost(responseObject) {
-		if (responseObject.errorCode !== 0) {
-		}
-	}
-
-	function handleEnableDevices() {
-		for (let i = 0; i < globalDevices.length; i++) {
-			client.subscribe(`${globalDevices[i].topic}`)
-		}
-	}
 
 	function toggleStatusDevice(id) {
 		const toggledDevice = globalDevices.map(device => {

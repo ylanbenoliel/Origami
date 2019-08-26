@@ -1,14 +1,8 @@
 import React, { useContext } from 'react';
-// import { client } from '../config/Client'
-import {
-	View,
-	Text,
-	StyleSheet,
-	AsyncStorage
-} from 'react-native';
+import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
 import { Header } from '../components'
 import IR from '../components/IR'
-
+import { client } from '../config/Client'
 import init from 'react_native_mqtt'
 
 init({
@@ -19,112 +13,61 @@ init({
 	sync: {},
 });
 
-
 export default function InfraRed(props) {
-	const clientId = Math.floor(Math.random() * 1000) + 1
-	const client = new Paho.MQTT.Client('broker.mqttdashboard.com',
-		8000, `${clientId}`)
 
-	client.onConnectionLost = onConnectionLost
-	client.onMessageArrived = onMessageArrived
-	client.connect(
-		{ onSuccess: onConnect, useSSL: false }
-	)
-
-	function onMessageArrived(message) {
+	function sendCommand(command) {
+		client.publish('so/sala', `${command}`)
 	}
 
-	function onConnect() {
-	}
-
-	function onConnectionLost(responseObject) {
-		if (responseObject.errorCode !== 0) {
-		}
-	}
-
-	function sendCommand(id) {
-		switch (id) {
-			case 0:
-				client.publish('so/sala', 'power')
-				break
-			case 1:
-				client.publish('so/sala', 'back')
-				break
-			case 2:
-				client.publish('so/sala', 'menu')
-				break
-			case 3:
-				client.publish('so/sala', 'input')
-				break
-			case 4:
-				client.publish('so/sala', 'vUp')
-				break
-			case 5:
-				client.publish('so/sala', 'vDown')
-				break
-			case 6:
-				client.publish('so/sala', 'cUp')
-				break
-			case 7:
-				client.publish('so/sala', 'cDown')
-				break
-			case 8:
-				client.publish('so/sala', 'up')
-				break
-			case 9:
-				client.publish('so/sala', 'left')
-				break
-			case 10:
-				client.publish('so/sala', 'ok')
-				break
-			case 11:
-				client.publish('so/sala', 'right')
-				break
-			case 12:
-				client.publish('so/sala', 'down')
-				break
-			default:
-				break
-		}
-	}
 	return (
 		<View style={styles.container}>
 			<Header />
 
 			<View style={styles.powerContainer}>
-				<IR name='power-settings-new' id={0} onSendCommand={sendCommand} />
+				<IR name='power-settings-new'
+					command='power' onSendCommand={sendCommand} />
 			</View>
 
 			<View style={styles.menuContainer}>
-				<IR name='subdirectory-arrow-left' id={1} onSendCommand={sendCommand} />
-				<IR name='menu' id={2} onSendCommand={sendCommand} />
-				<IR name='input' id={3} onSendCommand={sendCommand} />
+				<IR name='subdirectory-arrow-left'
+					command='back' onSendCommand={sendCommand} />
+				<IR name='menu' command='menu' onSendCommand={sendCommand} />
+				<IR name='input' command='input' onSendCommand={sendCommand} />
 			</View>
 
 			<View style={styles.channelContainer}>
 				<View style={styles.volume}>
-					<IR name='add' id={4} onSendCommand={sendCommand} />
+					<IR name='add'
+						command='vUp' onSendCommand={sendCommand} />
 					<Text style={styles.text}>Vol.</Text>
-					<IR name='remove' id={5} onSendCommand={sendCommand} />
+					<IR name='remove'
+						command='vDown' onSendCommand={sendCommand} />
 				</View>
+
 				<View style={styles.channel}>
-					<IR name='keyboard-arrow-up' id={6} onSendCommand={sendCommand} />
+					<IR name='keyboard-arrow-up'
+						command='cUp' onSendCommand={sendCommand} />
 					<Text style={styles.text}>Ch.</Text>
-					<IR name='keyboard-arrow-down' id={7} onSendCommand={sendCommand} />
+					<IR name='keyboard-arrow-down'
+						command='cDown' onSendCommand={sendCommand} />
 				</View>
 			</View>
 
 			<View style={styles.dpadContainer}>
 				<View style={styles.dpadUp}>
-					<IR name='keyboard-arrow-up' id={8} onSendCommand={sendCommand} />
+					<IR name='keyboard-arrow-up'
+						command='up' onSendCommand={sendCommand} />
 				</View>
 				<View style={styles.dpadMiddle}>
-					<IR name='keyboard-arrow-left' id={9} onSendCommand={sendCommand} />
-					<IR name='check' id={10} onSendCommand={sendCommand} />
-					<IR name='keyboard-arrow-right' id={11} onSendCommand={sendCommand} />
+					<IR name='keyboard-arrow-left'
+						command='left' onSendCommand={sendCommand} />
+					<IR name='check' command='ok' onSendCommand={sendCommand} />
+					<IR name='keyboard-arrow-right'
+						command='right' onSendCommand={sendCommand} />
 				</View>
 				<View style={styles.dpadBottom}>
-					<IR name='keyboard-arrow-down' id={12} onSendCommand={sendCommand} />
+					<IR name='keyboard-arrow-down'
+						command='down' onSendCommand={sendCommand} />
 				</View>
 			</View>
 

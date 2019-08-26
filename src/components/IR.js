@@ -8,7 +8,7 @@ const iconSize = 42 //emulator cel23
 const IR = (props) => {
     return (
         <TouchableOpacity style={styles.button}
-            onPress={() => props.onSendCommand(props.id)}
+            onPress={() => props.onSendCommand(props.command)}
             hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}
         >
             <View style={styles.icon}>
