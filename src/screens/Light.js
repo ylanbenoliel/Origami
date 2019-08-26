@@ -1,18 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { AsyncStorage, StyleSheet, View, FlatList } from 'react-native'
-import { Header, AddDevice } from '../components'
-import OnOff from '../components/OnOff'
+import { StyleSheet, View, FlatList } from 'react-native'
+import { Header, OnOff } from '../components'
 import { DeviceContext } from '../config/Device'
 import { client } from '../config/Client'
-import init from 'react_native_mqtt'
-
-init({
-	size: 10000,
-	storageBackend: AsyncStorage,
-	defaultExpires: 1000 * 3600 * 24,
-	enableCache: true,
-	sync: {},
-});
 
 export default function Light(props) {
 	const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
@@ -20,18 +10,13 @@ export default function Light(props) {
 	function toggleStatusDevice(id) {
 		const toggledDevice = globalDevices.map(device => {
 			if (device.id === id) {
-				// client.publish(`${device.topic}`, 't')
-				if (device.status === '1') client.publish(`${device.topic}`, '0')
-				if (device.status === '0') client.publish(`${device.topic}`, '1')
+				client.publish(`${device.topic}`, 't')
+				// if (device.status === '1') client.publish(`${device.topic}`, '0')
+				// if (device.status === '0') client.publish(`${device.topic}`, '1')
 			}
 			return device
 		})
 		setGlobalDevices(toggledDevice)
-	}
-
-	function deleteDevice(id) {
-		const remainDevices = globalDevices.filter(device => device.id !== id)
-		setGlobalDevices(remainDevices)
 	}
 
 	return (
@@ -41,8 +26,7 @@ export default function Light(props) {
 				{client && (
 					<FlatList data={globalDevices} numColumns={2}
 						keyExtractor={item => item.id} renderItem={({ item }) =>
-							<OnOff {...item} onToggleStatusDevice={toggleStatusDevice}
-								onDelete={deleteDevice} />}
+							<OnOff {...item} onToggleStatusDevice={toggleStatusDevice} />}
 					/>
 				)}
 			</View>

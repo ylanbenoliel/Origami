@@ -1,20 +1,22 @@
 import React from 'react'
-import { View, 
+import {
+	View,
 	Text,
-	StyleSheet, 
+	StyleSheet,
 	Dimensions,
-	TouchableOpacity } from 'react-native'
+	TouchableOpacity
+} from 'react-native'
 import commonStyles from '../config/commonStyles'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-export default (props) => {
+export function OnOff(props) {
 	let colorIcon = null
 	if (props.status == 1) colorIcon = 'yellow'
-	else colorIcon = commonStyles.colors.default
+	if (props.status == 0) colorIcon = commonStyles.colors.default
 	return (
-		<TouchableOpacity style={styles.button} 
+		<TouchableOpacity style={styles.button}
 			onPress={() => props.onToggleStatusDevice(props.id)}
-			onLongPress={() => props.onDelete(props.id)}>
+		>
 			<Text style={styles.place}>{props.place.toUpperCase()}</Text>
 			<View style={styles.status}>
 				<Icon name='wb-incandescent' color={colorIcon} size={60} />

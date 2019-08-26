@@ -1,17 +1,7 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
-import { Header } from '../components'
-import IR from '../components/IR'
+import { View, Text, StyleSheet } from 'react-native';
+import { Header, IR } from '../components'
 import { client } from '../config/Client'
-import init from 'react_native_mqtt'
-
-init({
-	size: 10000,
-	storageBackend: AsyncStorage,
-	defaultExpires: 1000 * 3600 * 24,
-	enableCache: true,
-	sync: {},
-});
 
 export default function InfraRed(props) {
 

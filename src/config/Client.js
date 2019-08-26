@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react'
+import React, { createContext, useEffect, useContext } from 'react'
 import init from 'react_native_mqtt'
 import { AsyncStorage } from 'react-native'
 import { DeviceContext } from './Device'
@@ -30,6 +30,8 @@ export default function Client(props) {
 
     function onMessageArrived(message) {
         const changedDevice = globalDevices.map(device => {
+            if (message.payloadString == 't') return device
+
             if (device.topic === message.destinationName) {
                 device.status = message.payloadString
             }
