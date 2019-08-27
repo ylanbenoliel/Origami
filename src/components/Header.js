@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, Platform, StyleSheet, StatusBar } from 'react-native';
-import logo from '../../assets/imgs/logo.png'
+import logo from '../assets/logocopia.png'
 
 export function Header(props) {
 	return (
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 	logo: {
 		alignItems: 'center',
 		width: 50,
-		height: 60,
+		height: 40,
 		resizeMode: 'contain',
 	}
 });
