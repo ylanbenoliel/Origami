@@ -23,12 +23,21 @@ export default function Light(props) {
 		<View style={styles.container}>
 			<Header />
 			<View style={styles.deviceContainer}>
-				{client && (
-					<FlatList data={globalDevices} numColumns={2}
-						keyExtractor={item => item.id} renderItem={({ item }) =>
-							<OnOff {...item} onToggleStatusDevice={toggleStatusDevice} />}
-					/>
-				)}
+				{globalDevices === 0
+					? <Text>Sem dispositivos</Text>
+					: (
+						globalDevices.map(
+							(device, index) => {
+								return (
+									<View key={device.id}>
+										<OnOff {...device}
+											onToggleStatusDevice={toggleStatusDevice} />
+									</View>
+								)
+							}
+						)
+					)
+				}
 			</View>
 		</View>
 	)

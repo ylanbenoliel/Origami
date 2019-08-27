@@ -51,6 +51,8 @@ export default function Client(props) {
 
     function handleEnableDevices() {
         const enableDevices = globalDevices.map(device => {
+            if (device.type == 'ir') return device
+
             client.subscribe(`${device.topic}`)
             return device
         })

@@ -24,15 +24,15 @@ const MenuOptions = {
 				<Icon name='power-settings-new' size={24} color={tintColor} />
 		}
 	},
-	// Split: {
-	//     name: 'Split',
-	//     screen: Split,
-	//     navigationOptions: {
-	//         title: 'Split',
-	//         tabBarIcon: ({ tintColor }) =>
-	//             <Icon name='ac-unit' size={24} color={tintColor} />
-	//     }
-	// }
+	Split: {
+		name: 'Split',
+		screen: Split,
+		navigationOptions: {
+			title: 'Split',
+			tabBarIcon: ({ tintColor }) =>
+				<Icon name='ac-unit' size={24} color={tintColor} />
+		}
+	}
 
 }
 
