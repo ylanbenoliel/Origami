@@ -12,7 +12,7 @@ const MenuOptions = {
 		navigationOptions: {
 			title: 'Light',
 			tabBarIcon: ({ tintColor }) =>
-				<Icon name='wb-incandescent' size={30} color={tintColor} />
+				<Icon name='wb-incandescent' size={24} color={tintColor} />
 		}
 	},
 	InfraRed: {
@@ -37,7 +37,7 @@ const MenuOptions = {
 }
 
 const MenuConfig = {
-	initialRouteName: 'Light',
+	initialRouteName: 'Split',
 	tabBarOptions: {
 		showLabel: false
 	}

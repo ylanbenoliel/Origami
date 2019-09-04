@@ -28,7 +28,7 @@ const data = [
 		topic: 'os/sala',
 		status: '0',
 		place: 'sala',
-		type: 'onoff'
+		type: 'ir'
 	}
 
 ]

@@ -14,49 +14,49 @@ export default function InfraRed(props) {
 			<Header />
 
 			<View style={styles.powerContainer}>
-				<IR name='power-settings-new'
+				<IR icon='power-settings-new'
 					command='power' onSendCommand={sendCommand} />
+				<IR icon='input' command='input' onSendCommand={sendCommand} />
 			</View>
 
 			<View style={styles.menuContainer}>
-				<IR name='subdirectory-arrow-left'
+				<IR icon='subdirectory-arrow-left'
 					command='back' onSendCommand={sendCommand} />
-				<IR name='menu' command='menu' onSendCommand={sendCommand} />
-				<IR name='input' command='input' onSendCommand={sendCommand} />
+				<IR icon='menu' command='menu' onSendCommand={sendCommand} />
 			</View>
 
 			<View style={styles.channelContainer}>
 				<View style={styles.volume}>
-					<IR name='add'
+					<IR icon='add'
 						command='vUp' onSendCommand={sendCommand} />
 					<Text style={styles.text}>Vol.</Text>
-					<IR name='remove'
+					<IR icon='remove'
 						command='vDown' onSendCommand={sendCommand} />
 				</View>
 
 				<View style={styles.channel}>
-					<IR name='keyboard-arrow-up'
+					<IR icon='keyboard-arrow-up'
 						command='cUp' onSendCommand={sendCommand} />
 					<Text style={styles.text}>Ch.</Text>
-					<IR name='keyboard-arrow-down'
+					<IR icon='keyboard-arrow-down'
 						command='cDown' onSendCommand={sendCommand} />
 				</View>
 			</View>
 
 			<View style={styles.dpadContainer}>
 				<View style={styles.dpadUp}>
-					<IR name='keyboard-arrow-up'
+					<IR icon='keyboard-arrow-up'
 						command='up' onSendCommand={sendCommand} />
 				</View>
 				<View style={styles.dpadMiddle}>
-					<IR name='keyboard-arrow-left'
+					<IR icon='keyboard-arrow-left'
 						command='left' onSendCommand={sendCommand} />
-					<IR name='check' command='ok' onSendCommand={sendCommand} />
-					<IR name='keyboard-arrow-right'
+					<IR icon='check' command='ok' onSendCommand={sendCommand} />
+					<IR icon='keyboard-arrow-right'
 						command='right' onSendCommand={sendCommand} />
 				</View>
 				<View style={styles.dpadBottom}>
-					<IR name='keyboard-arrow-down'
+					<IR icon='keyboard-arrow-down'
 						command='down' onSendCommand={sendCommand} />
 				</View>
 			</View>
@@ -68,18 +68,21 @@ export default function InfraRed(props) {
 const styles = StyleSheet.create({
 	container: {
 		height: '100%',
+		backgroundColor: 'rgba(255,255,255,0.7)'
 	},
 	powerContainer: {
 		// backgroundColor: 'red',
+		flexDirection: "row",
 		paddingVertical: 10,
 		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: 'space-around',
 
 	},
 	menuContainer: {
 		// backgroundColor: '#bdc',
 		flexDirection: 'row',
 		justifyContent: 'space-around',
+		paddingVertical: 10,
 	},
 	channelContainer: {
 		// backgroundColor: 'yellow',

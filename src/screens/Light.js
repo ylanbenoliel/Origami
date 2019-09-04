@@ -28,12 +28,14 @@ export default function Light(props) {
 					: (
 						globalDevices.map(
 							(device, index) => {
-								return (
-									<View key={device.id}>
-										<OnOff {...device}
-											onToggleStatusDevice={toggleStatusDevice} />
-									</View>
-								)
+								if (device.type == 'onoff') {
+									return (
+										<View key={device.id}>
+											<OnOff {...device}
+												onToggleStatusDevice={toggleStatusDevice} />
+										</View>
+									)
+								}
 							}
 						)
 					)
@@ -46,6 +48,7 @@ export default function Light(props) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: 'rgba(255,255,255,0.7)'
 	},
 	header: {
 		flexDirection: 'row',
@@ -60,6 +63,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		justifyContent: 'space-around',
-		paddingVertical: 5
+		paddingVertical: 5,
 	},
 })
