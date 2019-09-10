@@ -37,7 +37,7 @@ const MenuOptions = {
 }
 
 const MenuConfig = {
-	initialRouteName: 'Split',
+	initialRouteName: 'InfraRed',
 	tabBarOptions: {
 		showLabel: false
 	}

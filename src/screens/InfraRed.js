@@ -1,13 +1,26 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import commonStyles from '../config/commonStyles'
 import { Header, IR } from '../components'
 import { client } from '../config/Client'
+import { DeviceContext } from '../config/Device'
 
 export default function InfraRed(props) {
+	const { globalDevices } = useContext(DeviceContext)
+	const [currentDevice, setCurrentDevice] = useState()
+
+	useEffect(() => {
+		const irDeviceExists = globalDevices
+			.find(device => device.type == 'ir') || null
+
+		setCurrentDevice(irDeviceExists || null)
+	}, [])
 
 	function sendCommand(command) {
-		client.publish('so/sala', `${command}`)
+		client.publish(`${currentDevice.topic}`, `${command}`)
 	}
+
+
 
 	return (
 		<View style={styles.container}>
@@ -61,6 +74,29 @@ export default function InfraRed(props) {
 				</View>
 			</View>
 
+			<View style={styles.topicContainer}	>
+				{currentDevice !== null
+					? globalDevices.map(device => {
+						if (device.type == 'ir') {
+							const selected = device == currentDevice
+								? styles.topicButtonSelected
+								: null
+							return (
+								<TouchableOpacity
+									key={device.id}
+									onPress={() => setCurrentDevice(device)}
+									style={[styles.topicButton, selected]}
+								>
+									<Text style={styles.text}>
+										{device.place.toUpperCase()}
+									</Text>
+								</TouchableOpacity>
+							)
+						}
+					})
+					: <View />
+				}
+			</View>
 		</View>
 	)
 }
@@ -71,21 +107,18 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(255,255,255,0.7)'
 	},
 	powerContainer: {
-		// backgroundColor: 'red',
 		flexDirection: "row",
-		paddingVertical: 10,
+		paddingVertical: 5,
 		alignItems: 'center',
 		justifyContent: 'space-around',
 
 	},
 	menuContainer: {
-		// backgroundColor: '#bdc',
 		flexDirection: 'row',
 		justifyContent: 'space-around',
-		paddingVertical: 10,
+		paddingVertical: 5,
 	},
 	channelContainer: {
-		// backgroundColor: 'yellow',
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
@@ -95,31 +128,45 @@ const styles = StyleSheet.create({
 		color: 'black'
 	},
 	volume: {
-		// backgroundColor: '#aaa',
 		alignItems: 'center',
 		justifyContent: 'space-around',
-		paddingVertical: 10,
+		paddingVertical: 5,
 	},
 	channel: {
-		// backgroundColor: '#faa',
 		alignItems: 'center',
 		justifyContent: 'space-around',
-		paddingVertical: 10,
+		paddingVertical: 5,
 	},
 	dpadContainer: {
-		// backgroundColor: 'green',
-		flex: 1
+		flex: 1,
 	},
 	dpadUp: {
 		alignItems: 'center',
 	},
 	dpadMiddle: {
 		flexDirection: 'row',
-		paddingVertical: 10,
+		paddingVertical: 5,
 		paddingHorizontal: 80,
 		justifyContent: 'space-between',
 	},
 	dpadBottom: {
 		alignItems: 'center',
+	},
+	topicContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		alignItems: 'center'
+	},
+	topicButton: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingVertical: 6,
+		borderWidth: 2,
+		borderRadius: 5,
+		borderColor: 'black',
+		backgroundColor: 'rgba(255,255,255,0.7)'
+	},
+	topicButtonSelected: {
+		backgroundColor: commonStyles.colors.secondary
 	},
 });

@@ -26,8 +26,15 @@ const data = [
 	{
 		id: 4,
 		topic: 'os/sala',
-		status: '0',
+		status: null,
 		place: 'sala',
+		type: 'ir'
+	},
+	{
+		id: 5,
+		topic: 'os/corredor',
+		status: null,
+		place: 'corredor',
 		type: 'ir'
 	}
 
