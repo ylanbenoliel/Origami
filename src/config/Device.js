@@ -36,6 +36,20 @@ const data = [
 		status: null,
 		place: 'corredor',
 		type: 'ir'
+	},
+	{
+		id: 6,
+		topic: 'os/sala',
+		status: null,
+		place: 'sala',
+		type: 'split'
+	},
+	{
+		id: 7,
+		topic: 'os/cozinha',
+		status: null,
+		place: 'cozinha',
+		type: 'split'
 	}
 
 ]

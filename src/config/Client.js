@@ -4,68 +4,68 @@ import { AsyncStorage } from 'react-native'
 import { DeviceContext } from './Device'
 
 init({
-    size: 10000,
-    storageBackend: AsyncStorage,
-    defaultExpires: 1000 * 3600 * 24,
-    enableCache: true,
-    sync: {},
+	size: 10000,
+	storageBackend: AsyncStorage,
+	defaultExpires: 1000 * 3600 * 24,
+	enableCache: true,
+	sync: {},
 });
 
 export const ClientContext = createContext({})
 
 const clientId = Math.floor(Math.random() * 1000) + 1
 const client = new Paho.MQTT.Client('broker.mqttdashboard.com',
-    8000, `${clientId}`)
+	8000, `${clientId}`)
 
 export default function Client(props) {
-    const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
+	const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
 
-    useEffect(() => {
-        client.onConnectionLost = onConnectionLost
-        client.onMessageArrived = onMessageArrived
-        client.connect(
-            { onSuccess: onConnect, useSSL: false }
-        )
-    }, [])
+	useEffect(() => {
+		client.onConnectionLost = onConnectionLost
+		client.onMessageArrived = onMessageArrived
+		client.connect(
+			{ onSuccess: onConnect, useSSL: false }
+		)
+	}, [])
 
-    function onMessageArrived(message) {
-        const changedDevice = globalDevices.map(device => {
-            if (message.payloadString == 't') return device
+	function onMessageArrived(message) {
+		const changedDevice = globalDevices.map(device => {
+			if (message.payloadString == 't') return device
 
-            if (device.topic === message.destinationName) {
-                device.status = message.payloadString
-            }
-            return device
-        })
-        setGlobalDevices(changedDevice)
-    }
+			if (device.topic === message.destinationName) {
+				device.status = message.payloadString
+			}
+			return device
+		})
+		setGlobalDevices(changedDevice)
+	}
 
-    function onConnect() {
-        handleEnableDevices()
-    }
+	function onConnect() {
+		handleEnableDevices()
+	}
 
-    function onConnectionLost(responseObject) {
-        if (responseObject.errorCode !== 0) {
-        }
-    }
+	function onConnectionLost(responseObject) {
+		if (responseObject.errorCode !== 0) {
+		}
+	}
 
-    function handleEnableDevices() {
-        const enableDevices = globalDevices.map(device => {
-            if (device.type == 'ir') return device
+	function handleEnableDevices() {
+		const enableDevices = globalDevices.map(device => {
+			if (device.type != 'onoff') return device
 
-            client.subscribe(`${device.topic}`)
-            return device
-        })
-        setGlobalDevices(enableDevices)
-    }
+			client.subscribe(`${device.topic}`)
+			return device
+		})
+		setGlobalDevices(enableDevices)
+	}
 
-    return (
-        // <>
-        // </>
-        <ClientContext.Provider value={{ d: 0 }}>
-            {props.children}
-        </ClientContext.Provider>
-    )
+	return (
+		// <>
+		// </>
+		<ClientContext.Provider value={{ d: 0 }}>
+			{props.children}
+		</ClientContext.Provider>
+	)
 }
 
 export { client }

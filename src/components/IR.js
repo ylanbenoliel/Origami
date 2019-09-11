@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import commonStyles from '../config/commonStyles'
+// import commonStyles from '../config/commonStyles'
 
-const iconSize = 42 //emulator cel23
+const iconSize = 32 //emulator cel23
 
 export function IR(props) {
 	return (
@@ -13,7 +13,7 @@ export function IR(props) {
 		>
 			<View style={styles.icon}>
 				<Icon name={props.icon} size={iconSize}
-					color={commonStyles.colors.primary} />
+					color={'black'} />
 			</View>
 		</TouchableOpacity>
 	)
