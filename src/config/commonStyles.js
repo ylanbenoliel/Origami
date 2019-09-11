@@ -1,8 +1,8 @@
 export default {
     colors: {
         primary: '#4f4f4f',
-        secondary: '#c0c0c0',
+        secondary: '#ccc',
         modal: '#000098',
-        default: '#fff'
+        default: '#f0f0f0'
     },
 }

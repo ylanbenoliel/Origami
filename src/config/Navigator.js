@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import Light from '../screens/Light'
 import InfraRed from '../screens/InfraRed'
 import Split from '../screens/Split'
+import commonStyles from '../config/commonStyles'
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
 
 const MenuOptions = {
@@ -37,10 +38,16 @@ const MenuOptions = {
 }
 
 const MenuConfig = {
-	initialRouteName: 'Split',
+	initialRouteName: 'InfraRed',
 	tabBarOptions: {
-		showLabel: false
+		showLabel: false,
+		activeTintColor: commonStyles.colors.primary,
+		inactiveTintColor: commonStyles.colors.secondary,
+		style: {
+			backgroundColor: commonStyles.colors.default
+		}
 	}
+
 }
 
 const tabNavigator = createBottomTabNavigator(MenuOptions, MenuConfig)
