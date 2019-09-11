@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import commonStyles from '../config/commonStyles'
-import { Header, IR } from '../components'
+import { Header, IR, PlaceList } from '../components'
 import { DeviceContext } from '../config/Device'
 import { client } from '../config/Client'
 import fan from '../assets/fan.png'
 
+const fontIcon = 32
 export default function Split(props) {
+
 	const { globalDevices } = useContext(DeviceContext)
 	const [currentDevice, setCurrentDevice] = useState()
 
@@ -59,34 +61,10 @@ export default function Split(props) {
 
 				</View>
 
-				<View style={styles.topicContainer}	>
 
-					{currentDevice !== null
-						? globalDevices.map(device => {
-							if (device.type == 'split') {
-								const selectedButton = device == currentDevice
-									? styles.topicButtonSelected
-									: null
-								const selectedText = device == currentDevice
-									? styles.topicTextSelected
-									: null
-								return (
-									<TouchableOpacity
-										key={device.id}
-										onPress={() => setCurrentDevice(device)}
-										style={[styles.topicButton, selectedButton]}>
-										<Text style={[styles.topicText, selectedText]}>
-											{device.place.toUpperCase()}
-										</Text>
-									</TouchableOpacity>
-								)
-							}
-						})
-						: <View />
-					}
-
-				</View>
-
+				<PlaceList type='split'
+					currentDevice={currentDevice}
+					setCurrentDevice={setCurrentDevice} />
 			</View>
 
 		</View>
@@ -114,8 +92,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 	},
 	button: {
-		width: 32 + 10,
-		height: 32 + 5,
+		width: fontIcon + 10,
+		height: fontIcon + 5,
 		borderWidth: 2,
 		borderRadius: 5,
 		alignItems: 'center',
@@ -124,31 +102,4 @@ const styles = StyleSheet.create({
 	textTouchable: {
 		color: 'black'
 	},
-	topicContainer: {
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-around',
-		alignItems: 'center'
-	},
-	topicButton: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		paddingVertical: 6,
-		paddingHorizontal: 6,
-		borderWidth: 2,
-		borderRadius: 5,
-		borderColor: 'black',
-		backgroundColor: 'rgba(255,255,255,0.7)'
-	},
-	topicButtonSelected: {
-		backgroundColor: commonStyles.colors.secondary
-	},
-	topicText: {
-		color: 'black',
-		fontSize: 16,
-		fontWeight: 'bold',
-	},
-	topicTextSelected: {
-		color: 'white'
-	}
 });
