@@ -61,12 +61,11 @@ export default function Split(props) {
 
 				</View>
 
-
 				<PlaceList type='split'
 					currentDevice={currentDevice}
 					setCurrentDevice={setCurrentDevice} />
-			</View>
 
+			</View>
 		</View>
 	)
 }

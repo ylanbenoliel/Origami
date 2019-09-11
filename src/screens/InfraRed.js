@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import commonStyles from '../config/commonStyles'
 import { Header, IR, PlaceList } from '../components'
 import { client } from '../config/Client'
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
 	},
 	powerContainer: {
 		flexDirection: "row",
-		paddingVertical: 5,
+		paddingVertical: 10,
 		alignItems: 'center',
 		justifyContent: 'space-around',
 
@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
 	},
 	dpadContainer: {
 		flex: 1,
+		justifyContent: 'center'
 	},
 	dpadUp: {
 		alignItems: 'center',
