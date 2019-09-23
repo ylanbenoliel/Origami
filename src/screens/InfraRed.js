@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import commonStyles from '../config/commonStyles'
-import { Header, IR, PlaceList } from '../components'
-import { client } from '../config/Client'
+// import commonStyles from '../config/commonStyles'
+import { IR, PlaceList } from '../components'
 import { DeviceContext } from '../config/Device'
+import { client } from '../config/Client'
 
 export default function InfraRed(props) {
 
@@ -23,8 +23,6 @@ export default function InfraRed(props) {
 
 	return (
 		<View style={styles.container}>
-			<Header />
-
 			<View style={styles.buttonContainer}>
 
 				<View style={styles.powerContainer}>

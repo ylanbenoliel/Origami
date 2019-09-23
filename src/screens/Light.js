@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { StyleSheet, View, FlatList } from 'react-native'
-import { Header, OnOff } from '../components'
+import React, { useContext } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { OnOff } from '../components'
 import { DeviceContext } from '../config/Device'
 import { client } from '../config/Client'
 
@@ -21,7 +21,6 @@ export default function Light(props) {
 
 	return (
 		<View style={styles.container}>
-			<Header />
 			<View style={styles.deviceContainer}>
 				{globalDevices === 0
 					? <Text>Sem dispositivos</Text>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import commonStyles from '../config/commonStyles'
-import { Header, IR, PlaceList } from '../components'
+// import commonStyles from '../config/commonStyles'
+import { IR, PlaceList } from '../components'
 import { DeviceContext } from '../config/Device'
-import { client } from '../config/Client'
 import fan from '../assets/fan.png'
+import { client } from '../config/Client'
 
 const fontIcon = 32
 export default function Split(props) {
@@ -25,13 +25,8 @@ export default function Split(props) {
 
 	return (
 		<View style={styles.container}>
-
-			<Header />
-
 			<View style={styles.buttonContainer}>
-
 				<View style={styles.topButtonContainer}>
-
 					<TouchableOpacity
 						style={styles.button}
 						onPress={() => sendCommand('swing')}>
@@ -49,16 +44,12 @@ export default function Split(props) {
 				</View>
 
 				<View style={styles.bottomButtonContainer}>
-
 					<IR icon='add'
 						command='up' onSendCommand={sendCommand} />
-
 					<IR icon='power-settings-new'
 						command='power' onSendCommand={sendCommand} />
-
 					<IR icon='remove'
 						command='down' onSendCommand={sendCommand} />
-
 				</View>
 
 				<PlaceList type='split'
