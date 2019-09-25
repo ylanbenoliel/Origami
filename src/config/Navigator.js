@@ -5,6 +5,7 @@ import Login from '../screens/Login'
 import Light from '../screens/Light'
 import InfraRed from '../screens/InfraRed'
 import Split from '../screens/Split'
+import Config from '../screens/Config'
 import commonStyles from '../config/commonStyles'
 import {
 	createSwitchNavigator,
@@ -13,7 +14,6 @@ import {
 	createStackNavigator,
 	createAppContainer,
 } from 'react-navigation'
-
 import logo from '../assets/logocopia.png'
 
 /* 
@@ -26,9 +26,10 @@ import logo from '../assets/logocopia.png'
 					- Tab 1 - LightScreen
 					- Tab 2 - InfraRedScreen
 					- Tab 3 - SplitScreen
-			-Editar Devices
-				-EditScreen
-
+			- Editar Devices
+				- ConfigScreen
+			- Sair
+				- LogoutScreen
 */
 
 function LogoTitle() {
@@ -81,7 +82,28 @@ const DevicesTabNavigator = createBottomTabNavigator({
 })
 
 const DevicesStackNavigator = createStackNavigator({
-	DevicesTabNavigator: DevicesTabNavigator
+	DevicesTabNavigator
+},
+	{
+		headerLayoutPreset: 'center',
+		defaultNavigationOptions: ({ navigation }) => {
+			return {
+				headerLeft: (
+					<Icon
+						onPress={() => navigation.openDrawer()}
+						name='menu'
+						size={30}
+						style={{ paddingLeft: 10 }}
+					/>
+				),
+				headerTitle: <LogoTitle />
+			}
+		}
+	}
+)
+
+const ConfigStackNavigator = createStackNavigator({
+	Config
 },
 	{
 		headerLayoutPreset: 'center',
@@ -107,6 +129,12 @@ const AppDrawerNavigator = createDrawerNavigator({
 		navigationOptions: {
 			drawerLabel: 'Dispositivos'
 		}
+	},
+	Configuration: {
+		screen: ConfigStackNavigator,
+		navigationOptions: {
+			drawerLabel: 'Configurações'
+		}
 	}
 }, {
 	drawerWidth: 170
@@ -118,4 +146,5 @@ const AppSwitchNavigator = createSwitchNavigator({
 	Dashboard: AppDrawerNavigator
 })
 
-export default createAppContainer(AppSwitchNavigator)
+// export default createAppContainer(AppSwitchNavigator)
+export default createAppContainer(ConfigStackNavigator)
