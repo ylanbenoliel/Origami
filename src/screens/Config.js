@@ -43,7 +43,8 @@ export default function Config (props) {
               <Text
                 style={styles.topicText}
                 numberOfLines={2}
-              >Tópico: {device.topic}
+              >
+                Tópico: {device.topic}
               </Text>
               <Text style={styles.typeText}>Tipo: {device.type}</Text>
             </View>

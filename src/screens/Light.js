@@ -2,10 +2,11 @@ import React, { useContext } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { OnOff } from '../components'
 import { DeviceContext } from '../config/Device'
-import { client } from '../config/Client'
+import { ClientContext } from '../config/Client'
 
 export default function Light (props) {
   const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
+  const { client } = useContext(ClientContext)
 
   function toggleStatusDevice (id) {
     const toggledDevice = globalDevices.map(device => {

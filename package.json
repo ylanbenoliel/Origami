@@ -29,6 +29,10 @@
     "preset": "react-native"
   },
   "standard": {
-    "parser": "babel-eslint"
+    "parser": "babel-eslint",
+    "ignore": [
+      "__tests__/",
+      "node_modules/"
+    ]
   }
 }

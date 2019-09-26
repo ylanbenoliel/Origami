@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useContext } from 'react'
+import React, { createContext, useState, useEffect, useContext } from 'react'
 import init from 'react_native_mqtt'
 import { AsyncStorage } from 'react-native'
 import { DeviceContext } from './Device'
@@ -13,12 +13,11 @@ init({
 
 export const ClientContext = createContext({})
 
-const clientId = Math.floor(Math.random() * 1000) + 1
-const client = new Paho.MQTT.Client('broker.mqttdashboard.com',
-  8000, `${clientId}`)
-
 export default function Client (props) {
   const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
+  const clientId = Math.floor(Math.random() * 10000) + 1
+  const [client, setClient] =
+    useState(new Paho.MQTT.Client('broker.mqttdashboard.com', Number(8000), `${clientId}`)) //eslint-disable-line
 
   useEffect(() => {
     client.onConnectionLost = onConnectionLost
@@ -60,12 +59,10 @@ export default function Client (props) {
   }
 
   return (
-  // <>
-  // </>
-    <ClientContext.Provider value={{ d: 0 }}>
+    <ClientContext.Provider value={{ client, setClient }}>
       {props.children}
     </ClientContext.Provider>
   )
 }
 
-export { client }
+// export { client }

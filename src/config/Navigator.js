@@ -130,5 +130,5 @@ const AppSwitchNavigator = createSwitchNavigator({
   Dashboard: AppDrawerNavigator
 })
 
-// export default createAppContainer(AppSwitchNavigator)
-export default createAppContainer(ConfigStackNavigator)
+export default createAppContainer(AppSwitchNavigator)
+// export default createAppContainer(ConfigStackNavigator)

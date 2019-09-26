@@ -3,10 +3,11 @@ import { View, Text, StyleSheet } from 'react-native'
 // import commonStyles from '../config/commonStyles'
 import { Ir, PlaceList } from '../components'
 import { DeviceContext } from '../config/Device'
-import { client } from '../config/Client'
+import { ClientContext } from '../config/Client'
 
 export default function InfraRed (props) {
   const { globalDevices } = useContext(DeviceContext)
+  const { client } = useContext(ClientContext)
   const [currentDevice, setCurrentDevice] = useState()
 
   useEffect(() => {
