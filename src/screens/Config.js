@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import commonStyles from '../config/commonStyles'
@@ -15,6 +16,25 @@ export default function Config(props) {
 
   const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
 
+  function showAlertToDelete(device) {
+    Alert.alert(
+      'Atenção!',
+      `Deseja apagar o dispositivo ${device.topic}?`,
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => { }
+        },
+        {
+          text: 'Ok',
+          onPress: () => {
+            setGlobalDevices(globalDevices.filter(item => item !== device))
+          }
+        }
+      ]
+    )
+  }
+
   function listTotalDevices() {
     return totalDevices = globalDevices.map(device => {
       return (
@@ -22,7 +42,8 @@ export default function Config(props) {
           <View style={styles.deviceInfo}>
             <Text style={styles.placeText}>Lugar: {device.place}</Text>
             <View style={{ flex: 1 }}>
-              <Text style={styles.topicText} numberOfLines={2}>Tópico: {device.topic}</Text>
+              <Text style={styles.topicText}
+                numberOfLines={2}>Tópico: {device.topic}</Text>
               <Text style={styles.typeText}>Tipo: {device.type}</Text>
             </View>
           </View>
@@ -31,7 +52,8 @@ export default function Config(props) {
             <TouchableOpacity style={styles.button}>
               <Icon name='edit' color={commonStyles.colors.primary} size={24} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button}
+              onPress={() => showAlertToDelete(device)}>
               <Icon name='clear' color={commonStyles.colors.primary} size={24} />
             </TouchableOpacity>
           </View>
@@ -100,6 +122,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: commonStyles.colors.primary
   },
-
 
 })
