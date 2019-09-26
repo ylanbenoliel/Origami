@@ -5,18 +5,16 @@ import ClientProvider from './src/config/Client'
 import DeviceProvider from './src/config/Device'
 
 YellowBox.ignoreWarnings([
-    'Remote debugger'
+  'Remote debugger'
 ])
 
-function App() {
-
-    return (
-        <DeviceProvider >
-            <ClientProvider>
-                <Navigator />
-            </ClientProvider>
-        </DeviceProvider>
-    )
-
+function App () {
+  return (
+    <DeviceProvider>
+      <ClientProvider>
+        <Navigator />
+      </ClientProvider>
+    </DeviceProvider>
+  )
 }
 export default App

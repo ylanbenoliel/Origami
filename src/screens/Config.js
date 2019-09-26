@@ -11,12 +11,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import commonStyles from '../config/commonStyles'
 import { DeviceContext } from '../config/Device'
 
-
-export default function Config(props) {
-
+export default function Config (props) {
   const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
 
-  function showAlertToDelete(device) {
+  function showAlertToDelete (device) {
     Alert.alert(
       'Atenção!',
       `Deseja apagar o dispositivo ${device.topic}?`,
@@ -35,15 +33,18 @@ export default function Config(props) {
     )
   }
 
-  function listTotalDevices() {
-    return totalDevices = globalDevices.map(device => {
+  function listTotalDevices () {
+    const totalDevices = globalDevices.map(device => {
       return (
         <View key={device.id} style={styles.deviceBox}>
           <View style={styles.deviceInfo}>
             <Text style={styles.placeText}>Lugar: {device.place}</Text>
             <View style={{ flex: 1 }}>
-              <Text style={styles.topicText}
-                numberOfLines={2}>Tópico: {device.topic}</Text>
+              <Text
+                style={styles.topicText}
+                numberOfLines={2}
+              >Tópico: {device.topic}
+              </Text>
               <Text style={styles.typeText}>Tipo: {device.type}</Text>
             </View>
           </View>
@@ -52,14 +53,17 @@ export default function Config(props) {
             <TouchableOpacity style={styles.button}>
               <Icon name='edit' color={commonStyles.colors.primary} size={24} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}
-              onPress={() => showAlertToDelete(device)}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => showAlertToDelete(device)}
+            >
               <Icon name='clear' color={commonStyles.colors.primary} size={24} />
             </TouchableOpacity>
           </View>
         </View>
       )
     })
+    return totalDevices
   }
 
   return (
@@ -79,10 +83,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'flex-start',
     paddingLeft: 15,
-    borderWidth: 1,
+    borderWidth: 1
   },
   deviceInfo: {
-    flex: 1,
+    flex: 1
   },
   deviceOptions: {
     width: '100%',
@@ -121,6 +125,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: commonStyles.colors.primary
-  },
+  }
 
 })

@@ -3,25 +3,26 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { DeviceContext } from '../config/Device'
 import commonStyles from '../config/commonStyles'
 
-export function PlaceList(props) {
+export function PlaceList (props) {
   const { globalDevices } = useContext(DeviceContext)
   const { currentDevice, type } = props
   return (
-    < View style={styles.topicContainer} >
+    <View style={styles.topicContainer}>
       {currentDevice !== null
         ? globalDevices.map(device => {
-          if (device.type == type) {
-            const selectedButton = device == currentDevice
+          if (device.type === type) {
+            const selectedButton = device === currentDevice
               ? styles.topicButtonSelected
               : null
-            const selectedText = device == currentDevice
+            const selectedText = device === currentDevice
               ? styles.topicTextSelected
               : null
             return (
               <TouchableOpacity
                 key={device.id}
                 onPress={() => props.setCurrentDevice(device)}
-                style={[styles.topicButton, selectedButton]}>
+                style={[styles.topicButton, selectedButton]}
+              >
                 <Text style={[styles.topicText, selectedText]}>
                   {device.place.toUpperCase()}
                 </Text>
@@ -29,9 +30,8 @@ export function PlaceList(props) {
             )
           }
         })
-        : <View />
-      }
-    </View >
+        : <View />}
+    </View>
   )
 }
 const styles = StyleSheet.create({
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   topicButton: {
     justifyContent: 'center',
@@ -57,10 +57,9 @@ const styles = StyleSheet.create({
   topicText: {
     color: 'black',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   topicTextSelected: {
     color: 'white'
   }
 })
-

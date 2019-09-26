@@ -18,17 +18,17 @@
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/runtime": "^7.5.5",
+    "babel-eslint": "^10.0.3",
     "babel-jest": "^24.8.0",
     "jest": "^24.8.0",
     "metro-react-native-babel-preset": "^0.55.0",
-    "react-test-renderer": "16.8.3"
+    "react-test-renderer": "16.8.3",
+    "standard": "^14.3.1"
   },
   "jest": {
     "preset": "react-native"
   },
-  "rnpm": {
-    "assets": [
-      "./assets"
-    ]
+  "standard": {
+    "parser": "babel-eslint"
   }
 }
