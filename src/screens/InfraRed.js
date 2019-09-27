@@ -11,8 +11,8 @@ export default function InfraRed (props) {
   const [currentDevice, setCurrentDevice] = useState()
 
   useEffect(() => {
-    const irDeviceExists = globalDevices
-      .find(device => device.type === 'ir') || null
+    const irDeviceExists =
+      globalDevices.find(device => device.type === 'ir') || null
 
     setCurrentDevice(irDeviceExists || null)
   }, [])
@@ -24,88 +24,77 @@ export default function InfraRed (props) {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-
         <View style={styles.powerContainer}>
           <Ir
             icon='power-settings-new'
-            command='power' onSendCommand={sendCommand}
+            command='power'
+            onSendCommand={sendCommand}
           />
-          <Ir
-            icon='input'
-            command='input' onSendCommand={sendCommand}
-          />
+          <Ir icon='input' command='input' onSendCommand={sendCommand} />
         </View>
 
         <View style={styles.menuContainer}>
           <Ir
             icon='subdirectory-arrow-left'
-            command='back' onSendCommand={sendCommand}
+            command='back'
+            onSendCommand={sendCommand}
           />
-          <Ir
-            icon='menu'
-            command='menu' onSendCommand={sendCommand}
-          />
+          <Ir icon='menu' command='menu' onSendCommand={sendCommand} />
         </View>
 
         <View style={styles.channelContainer}>
           <View style={styles.volume}>
-            <Ir
-              icon='add'
-              command='vUp' onSendCommand={sendCommand}
-            />
+            <Ir icon='add' command='vUp' onSendCommand={sendCommand} />
             <Text style={styles.text}>Vol.</Text>
-            <Ir
-              icon='remove'
-              command='vDown' onSendCommand={sendCommand}
-            />
+            <Ir icon='remove' command='vDown' onSendCommand={sendCommand} />
           </View>
 
           <View style={styles.channel}>
             <Ir
               icon='keyboard-arrow-up'
-              command='cUp' onSendCommand={sendCommand}
+              command='cUp'
+              onSendCommand={sendCommand}
             />
             <Text style={styles.text}>Ch.</Text>
             <Ir
               icon='keyboard-arrow-down'
-              command='cDown' onSendCommand={sendCommand}
+              command='cDown'
+              onSendCommand={sendCommand}
             />
           </View>
-
         </View>
 
         <View style={styles.dpadContainer}>
           <View style={styles.dpadUp}>
             <Ir
               icon='keyboard-arrow-up'
-              command='up' onSendCommand={sendCommand}
+              command='up'
+              onSendCommand={sendCommand}
             />
           </View>
 
           <View style={styles.dpadMiddle}>
             <Ir
               icon='keyboard-arrow-left'
-              command='left' onSendCommand={sendCommand}
+              command='left'
+              onSendCommand={sendCommand}
             />
-            <Ir
-              icon='check'
-              command='ok' onSendCommand={sendCommand}
-            />
+            <Ir icon='check' command='ok' onSendCommand={sendCommand} />
             <Ir
               icon='keyboard-arrow-right'
-              command='right' onSendCommand={sendCommand}
+              command='right'
+              onSendCommand={sendCommand}
             />
           </View>
 
           <View style={styles.dpadBottom}>
             <Ir
               icon='keyboard-arrow-down'
-              command='down' onSendCommand={sendCommand}
+              command='down'
+              onSendCommand={sendCommand}
             />
           </View>
-
         </View>
-
       </View>
 
       <PlaceList
@@ -113,7 +102,6 @@ export default function InfraRed (props) {
         currentDevice={currentDevice}
         setCurrentDevice={setCurrentDevice}
       />
-
     </View>
   )
 }
@@ -131,7 +119,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'space-around'
-
   },
   menuContainer: {
     flexDirection: 'row',

@@ -15,16 +15,27 @@ export const ClientContext = createContext({})
 
 export default function Client (props) {
   const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
+
   const clientId = Math.floor(Math.random() * 10000) + 1
-  const [client, setClient] =
-    useState(new Paho.MQTT.Client('broker.mqttdashboard.com', Number(8000), `${clientId}`)) //eslint-disable-line
+
+  const [clientInfo, setClientInfo] = useState({
+    BROKER: 'broker.mqttdashboard.com',
+    PORT: '8000'
+  })
+
+  const [client, setClient] = useState(
+    new Paho.MQTT.Client( //eslint-disable-line
+      clientInfo.BROKER,
+      Number(clientInfo.PORT),
+      `${clientId}`
+    )
+  )
 
   useEffect(() => {
     client.onConnectionLost = onConnectionLost
     client.onMessageArrived = onMessageArrived
-    client.connect(
-      { onSuccess: onConnect, useSSL: false }
-    )
+    client.connect({ onSuccess: onConnect, useSSL: false })
+    return () => client.disconnect()
   }, [])
 
   function onMessageArrived (message) {
@@ -59,10 +70,14 @@ export default function Client (props) {
   }
 
   return (
-    <ClientContext.Provider value={{ client, setClient }}>
+    <ClientContext.Provider value={{
+      client,
+      setClient,
+      clientInfo,
+      setClientInfo
+    }}
+    >
       {props.children}
     </ClientContext.Provider>
   )
 }
-
-// export { client }

@@ -10,27 +10,27 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import commonStyles from '../config/commonStyles'
 import { DeviceContext } from '../config/Device'
+import { ClientContext } from '../config/Client'
 
 export default function Config (props) {
   const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
+  const {
+    clientInfo
+  } = useContext(ClientContext)
 
   function showAlertToDelete (device) {
-    Alert.alert(
-      'Atenção!',
-      `Deseja apagar o dispositivo ${device.topic}?`,
-      [
-        {
-          text: 'Cancelar',
-          onPress: () => { }
-        },
-        {
-          text: 'Ok',
-          onPress: () => {
-            setGlobalDevices(globalDevices.filter(item => item !== device))
-          }
+    Alert.alert('Atenção!', `Deseja apagar o dispositivo ${device.topic}?`, [
+      {
+        text: 'Cancelar',
+        onPress: () => { }
+      },
+      {
+        text: 'Ok',
+        onPress: () => {
+          setGlobalDevices(globalDevices.filter(item => item !== device))
         }
-      ]
-    )
+      }
+    ])
   }
 
   function listTotalDevices () {
@@ -40,10 +40,7 @@ export default function Config (props) {
           <View style={styles.deviceInfo}>
             <Text style={styles.placeText}>Lugar: {device.place}</Text>
             <View style={{ flex: 1 }}>
-              <Text
-                style={styles.topicText}
-                numberOfLines={2}
-              >
+              <Text style={styles.topicText} numberOfLines={2}>
                 Tópico: {device.topic}
               </Text>
               <Text style={styles.typeText}>Tipo: {device.type}</Text>
@@ -58,7 +55,11 @@ export default function Config (props) {
               style={styles.button}
               onPress={() => showAlertToDelete(device)}
             >
-              <Icon name='clear' color={commonStyles.colors.primary} size={24} />
+              <Icon
+                name='clear'
+                color={commonStyles.colors.primary}
+                size={24}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -68,9 +69,44 @@ export default function Config (props) {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      {listTotalDevices()}
-    </ScrollView>
+    <View style={styles.container}>
+      <View style={styles.clientContainer}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={styles.clientText}>Broker: {clientInfo.BROKER}</Text>
+          <TouchableOpacity style={[styles.button, { flex: 1 }]}>
+            <Icon name='edit' color={commonStyles.colors.primary} size={24} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={styles.clientText}>Porta: {clientInfo.PORT}</Text>
+          <TouchableOpacity style={[styles.button, { flex: 1 }]}>
+            <Icon name='edit' color={commonStyles.colors.primary} size={24} />
+          </TouchableOpacity>
+        </View>
+
+      </View>
+
+      <View style={{
+        alignItems: 'center',
+        paddingVertical: 5,
+        backgroundColor: commonStyles.colors.primary
+      }}
+      >
+        <Text style={{
+          fontSize: 18,
+          fontWeight: 'bold',
+          color: commonStyles.colors.default
+        }}
+        >
+          Dispositivos cadastrados
+        </Text>
+      </View>
+
+      <ScrollView>
+        {listTotalDevices()}
+      </ScrollView>
+    </View>
   )
 }
 
@@ -114,7 +150,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     color: commonStyles.colors.primary
-
   },
   topicText: {
     fontSize: 20,
@@ -126,6 +161,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: commonStyles.colors.primary
+  },
+  clientContainer: {
+    width: '95%',
+    alignItems: 'center',
+    paddingLeft: 10,
+    paddingVertical: 10
+  },
+  clientText: {
+    flex: 9,
+    color: commonStyles.colors.primary,
+    fontSize: 18,
+    fontWeight: 'bold'
   }
 
 })
