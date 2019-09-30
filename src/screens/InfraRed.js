@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-// import commonStyles from '../config/commonStyles'
+import commonStyles from '../config/commonStyles'
 import { Ir, PlaceList } from '../components'
 import { DeviceContext } from '../config/Device'
 import { ClientContext } from '../config/Client'
@@ -12,9 +12,9 @@ export default function InfraRed (props) {
 
   useEffect(() => {
     const irDeviceExists =
-      globalDevices.find(device => device.type === 'ir') || null
+      globalDevices.find(device => device.type === 'ir')
 
-    setCurrentDevice(irDeviceExists || null)
+    setCurrentDevice(irDeviceExists)
   }, [])
 
   function sendCommand (command) {
@@ -23,85 +23,93 @@ export default function InfraRed (props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <View style={styles.powerContainer}>
-          <Ir
-            icon='power-settings-new'
-            command='power'
-            onSendCommand={sendCommand}
+      {currentDevice !== undefined? //eslint-disable-line
+        <>
+          <View style={styles.buttonContainer}>
+            <View style={styles.powerContainer}>
+              <Ir
+                icon='power-settings-new'
+                command='power'
+                onSendCommand={sendCommand}
+              />
+              <Ir icon='input' command='input' onSendCommand={sendCommand} />
+            </View>
+
+            <View style={styles.menuContainer}>
+              <Ir
+                icon='subdirectory-arrow-left'
+                command='back'
+                onSendCommand={sendCommand}
+              />
+              <Ir icon='menu' command='menu' onSendCommand={sendCommand} />
+            </View>
+
+            <View style={styles.channelContainer}>
+              <View style={styles.volume}>
+                <Ir icon='add' command='vUp' onSendCommand={sendCommand} />
+                <Text style={styles.text}>Vol.</Text>
+                <Ir icon='remove' command='vDown' onSendCommand={sendCommand} />
+              </View>
+
+              <View style={styles.channel}>
+                <Ir
+                  icon='keyboard-arrow-up'
+                  command='cUp'
+                  onSendCommand={sendCommand}
+                />
+                <Text style={styles.text}>Ch.</Text>
+                <Ir
+                  icon='keyboard-arrow-down'
+                  command='cDown'
+                  onSendCommand={sendCommand}
+                />
+              </View>
+            </View>
+
+            <View style={styles.dpadContainer}>
+              <View style={styles.dpadUp}>
+                <Ir
+                  icon='keyboard-arrow-up'
+                  command='up'
+                  onSendCommand={sendCommand}
+                />
+              </View>
+
+              <View style={styles.dpadMiddle}>
+                <Ir
+                  icon='keyboard-arrow-left'
+                  command='left'
+                  onSendCommand={sendCommand}
+                />
+                <Ir icon='check' command='ok' onSendCommand={sendCommand} />
+                <Ir
+                  icon='keyboard-arrow-right'
+                  command='right'
+                  onSendCommand={sendCommand}
+                />
+              </View>
+
+              <View style={styles.dpadBottom}>
+                <Ir
+                  icon='keyboard-arrow-down'
+                  command='down'
+                  onSendCommand={sendCommand}
+                />
+              </View>
+            </View>
+
+          </View>
+
+          <PlaceList
+            type='ir'
+            currentDevice={currentDevice}
+            setCurrentDevice={setCurrentDevice}
           />
-          <Ir icon='input' command='input' onSendCommand={sendCommand} />
-        </View>
-
-        <View style={styles.menuContainer}>
-          <Ir
-            icon='subdirectory-arrow-left'
-            command='back'
-            onSendCommand={sendCommand}
-          />
-          <Ir icon='menu' command='menu' onSendCommand={sendCommand} />
-        </View>
-
-        <View style={styles.channelContainer}>
-          <View style={styles.volume}>
-            <Ir icon='add' command='vUp' onSendCommand={sendCommand} />
-            <Text style={styles.text}>Vol.</Text>
-            <Ir icon='remove' command='vDown' onSendCommand={sendCommand} />
-          </View>
-
-          <View style={styles.channel}>
-            <Ir
-              icon='keyboard-arrow-up'
-              command='cUp'
-              onSendCommand={sendCommand}
-            />
-            <Text style={styles.text}>Ch.</Text>
-            <Ir
-              icon='keyboard-arrow-down'
-              command='cDown'
-              onSendCommand={sendCommand}
-            />
-          </View>
-        </View>
-
-        <View style={styles.dpadContainer}>
-          <View style={styles.dpadUp}>
-            <Ir
-              icon='keyboard-arrow-up'
-              command='up'
-              onSendCommand={sendCommand}
-            />
-          </View>
-
-          <View style={styles.dpadMiddle}>
-            <Ir
-              icon='keyboard-arrow-left'
-              command='left'
-              onSendCommand={sendCommand}
-            />
-            <Ir icon='check' command='ok' onSendCommand={sendCommand} />
-            <Ir
-              icon='keyboard-arrow-right'
-              command='right'
-              onSendCommand={sendCommand}
-            />
-          </View>
-
-          <View style={styles.dpadBottom}>
-            <Ir
-              icon='keyboard-arrow-down'
-              command='down'
-              onSendCommand={sendCommand}
-            />
-          </View>
-        </View>
-      </View>
-
-      <PlaceList
-        type='ir'
-        currentDevice={currentDevice}
-        setCurrentDevice={setCurrentDevice}
-      />
+        </>
+        : //eslint-disable-line
+        <View style={styles.noDeviceView}>
+          <Text style={styles.noDeviceText}>Sem dispositivos</Text>
+        </View>}
     </View>
   )
 }
@@ -159,5 +167,15 @@ const styles = StyleSheet.create({
   },
   dpadBottom: {
     alignItems: 'center'
+  },
+  noDeviceView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  noDeviceText: {
+    color: commonStyles.colors.primary,
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 })

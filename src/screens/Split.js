@@ -5,6 +5,7 @@ import { Ir, PlaceList } from '../components'
 import { DeviceContext } from '../config/Device'
 import { ClientContext } from '../config/Client'
 import fan from '../assets/fan.png'
+import commonStyles from '../config/commonStyles'
 
 const fontIcon = 32
 export default function Split (props) {
@@ -14,9 +15,9 @@ export default function Split (props) {
 
   useEffect(() => {
     const splitDeviceExists = globalDevices
-      .find(device => device.type === 'split') || null
+      .find(device => device.type === 'split')
 
-    setCurrentDevice(splitDeviceExists || null)
+    setCurrentDevice(splitDeviceExists)
   }, [])
 
   function sendCommand (command) {
@@ -25,50 +26,56 @@ export default function Split (props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <View style={styles.topButtonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => sendCommand('swing')}
-          >
-            <Text style={styles.textTouchable}>Swing</Text>
-          </TouchableOpacity>
+      {currentDevice !== undefined?//eslint-disable-line
+        <View style={styles.buttonContainer}>
+          <View style={styles.topButtonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => sendCommand('swing')}
+            >
+              <Text style={styles.textTouchable}>Swing</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => sendCommand('fan')}
-          >
-            <Image source={fan} />
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => sendCommand('fan')}
+            >
+              <Image source={fan} />
+            </TouchableOpacity>
 
-          <Ir
-            icon='timer'
-            command='timer' onSendCommand={sendCommand}
+            <Ir
+              icon='timer'
+              command='timer' onSendCommand={sendCommand}
+            />
+          </View>
+
+          <View style={styles.bottomButtonContainer}>
+            <Ir
+              icon='add'
+              command='up' onSendCommand={sendCommand}
+            />
+            <Ir
+              icon='power-settings-new'
+              command='power' onSendCommand={sendCommand}
+            />
+            <Ir
+              icon='remove'
+              command='down' onSendCommand={sendCommand}
+            />
+          </View>
+
+          <PlaceList
+            type='split'
+            currentDevice={currentDevice}
+            setCurrentDevice={setCurrentDevice}
           />
+
         </View>
+        :// eslint-disable-line
+        <View style={styles.noDeviceView}>
+          <Text style={styles.noDeviceText}>Sem dispositivos</Text>
+        </View>}
 
-        <View style={styles.bottomButtonContainer}>
-          <Ir
-            icon='add'
-            command='up' onSendCommand={sendCommand}
-          />
-          <Ir
-            icon='power-settings-new'
-            command='power' onSendCommand={sendCommand}
-          />
-          <Ir
-            icon='remove'
-            command='down' onSendCommand={sendCommand}
-          />
-        </View>
-
-        <PlaceList
-          type='split'
-          currentDevice={currentDevice}
-          setCurrentDevice={setCurrentDevice}
-        />
-
-      </View>
     </View>
   )
 }
@@ -103,5 +110,15 @@ const styles = StyleSheet.create({
   },
   textTouchable: {
     color: 'black'
+  },
+  noDeviceView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  noDeviceText: {
+    color: commonStyles.colors.primary,
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 })
