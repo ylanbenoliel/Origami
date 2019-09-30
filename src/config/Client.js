@@ -74,7 +74,8 @@ export default function Client (props) {
       client,
       setClient,
       clientInfo,
-      setClientInfo
+      setClientInfo,
+      handleEnableDevices
     }}
     >
       {props.children}

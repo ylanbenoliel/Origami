@@ -17,9 +17,10 @@ import { AddDevice } from '../components'
 export default function Config (props) {
   const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
   const {
-    clientInfo
+    client, clientInfo, handleEnableDevices
   } = useContext(ClientContext)
   const [addDevice, setAddDevice] = useState(false)
+
   function showModalToEdit (device) {
     // setModalVisible(true)
     // return (
@@ -36,6 +37,7 @@ export default function Config (props) {
       {
         text: 'Ok',
         onPress: () => {
+          client.unsubscribe(`${device.topic}`)
           setGlobalDevices(globalDevices.filter(item => item !== device))
         }
       }
@@ -96,6 +98,7 @@ export default function Config (props) {
         break
     }
     if (newDevice !== null) {
+      handleEnableDevices()
       setGlobalDevices([...globalDevices,
         newDevice
       ])
