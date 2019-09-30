@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useCallback } from 'react'
 import {
   View,
   Text,
@@ -12,11 +12,20 @@ import commonStyles from '../config/commonStyles'
 import { DeviceContext } from '../config/Device'
 import { ClientContext } from '../config/Client'
 
+import { AddDevice } from '../components'
+
 export default function Config (props) {
   const { globalDevices, setGlobalDevices } = useContext(DeviceContext)
   const {
     clientInfo
   } = useContext(ClientContext)
+  const [addDevice, setAddDevice] = useState(false)
+  function showModalToEdit (device) {
+    // setModalVisible(true)
+    // return (
+
+    // )
+  }
 
   function showAlertToDelete (device) {
     Alert.alert('Atenção!', `Deseja apagar o dispositivo ${device.topic}?`, [
@@ -48,11 +57,14 @@ export default function Config (props) {
           </View>
 
           <View style={styles.deviceOptions}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.buttonOptions}
+              onPress={() => showModalToEdit(device)}
+            >
               <Icon name='edit' color={commonStyles.colors.primary} size={24} />
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonOptions}
               onPress={() => showAlertToDelete(device)}
             >
               <Icon
@@ -68,19 +80,47 @@ export default function Config (props) {
     return totalDevices
   }
 
+  function saveDevice (device) {
+    let newDevice = null
+    switch (device.type) {
+      case 'onoff':
+        newDevice = {
+          id: Math.random(),
+          topic: device.topic.trim().toLowerCase(),
+          status: '0',
+          place: device.place.trim().toLowerCase(),
+          type: device.type.trim().toLowerCase()
+        }
+        break
+      default:
+        break
+    }
+    if (newDevice !== null) {
+      setGlobalDevices([...globalDevices,
+        newDevice
+      ])
+    }
+  }
+
+  const getDevice = useCallback(device => {
+    setAddDevice(false)
+    saveDevice(device)
+  }
+
+  )
   return (
     <View style={styles.container}>
       <View style={styles.clientContainer}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.clientText}>Broker: {clientInfo.BROKER}</Text>
-          <TouchableOpacity style={[styles.button, { flex: 1 }]}>
+          <TouchableOpacity style={[styles.buttonOptions, { flex: 1 }]}>
             <Icon name='edit' color={commonStyles.colors.primary} size={24} />
           </TouchableOpacity>
         </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.clientText}>Porta: {clientInfo.PORT}</Text>
-          <TouchableOpacity style={[styles.button, { flex: 1 }]}>
+          <TouchableOpacity style={[styles.buttonOptions, { flex: 1 }]}>
             <Icon name='edit' color={commonStyles.colors.primary} size={24} />
           </TouchableOpacity>
         </View>
@@ -90,7 +130,7 @@ export default function Config (props) {
       <View style={{
         alignItems: 'center',
         paddingVertical: 5,
-        backgroundColor: commonStyles.colors.primary
+        backgroundColor: commonStyles.colors.secondary
       }}
       >
         <Text style={{
@@ -99,9 +139,33 @@ export default function Config (props) {
           color: commonStyles.colors.default
         }}
         >
-          Dispositivos cadastrados
+          DISPOSITIVOS CADASTRADOS
         </Text>
       </View>
+
+      <View style={{
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        padding: 5,
+        paddingRight: 15
+      }}
+      >
+        <TouchableOpacity
+          onPress={() => setAddDevice(true)}
+          style={styles.addDeviceButton}
+        >
+          <Text
+            style={styles.addDeviceText}
+            numberOfLines={2}
+          >ADICIONAR DISPOSITIVO
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <AddDevice
+        isVisible={addDevice} onCancel={() => setAddDevice(false)}
+        onSave={getDevice}
+      />
 
       <ScrollView>
         {listTotalDevices()}
@@ -132,7 +196,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingVertical: 4
   },
-  button: {
+  buttonOptions: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
@@ -172,6 +236,17 @@ const styles = StyleSheet.create({
     flex: 9,
     color: commonStyles.colors.primary,
     fontSize: 18,
+    fontWeight: 'bold'
+  },
+  addDeviceButton: {
+    height: 32,
+    width: 100,
+    justifyContent: 'center',
+    borderRadius: 5,
+    backgroundColor: commonStyles.colors.primary
+  },
+  addDeviceText: {
+    color: commonStyles.colors.default,
     fontWeight: 'bold'
   }
 
