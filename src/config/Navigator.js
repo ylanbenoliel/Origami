@@ -74,7 +74,7 @@ const DevicesStackNavigator = createStackNavigator({
     return {
       headerLeft: (
         <Icon
-          onPress={() => navigation.openDrawer()}
+          onPress={() => navigation.openDrawer()} //FIXME The menu don't close with gesture
           name='menu'
           size={30}
           style={{ paddingLeft: 10 }}
@@ -95,7 +95,7 @@ const ConfigStackNavigator = createStackNavigator({
     return {
       headerLeft: (
         <Icon
-          onPress={() => navigation.openDrawer()}
+          onPress={() => navigation.openDrawer()} //FIXME The menu don't close with gesture
           name='menu'
           size={30}
           style={{ paddingLeft: 10 }}
